@@ -1,0 +1,7 @@
+{
+  "/":{
+      "target": "http://cattermu.top/CRSS/index.php",
+      "secure":false,
+      "changeOrigin": true
+  }
+}
