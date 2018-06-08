@@ -1,14 +1,61 @@
 {
     "app": {
-        "name": "Alain",
-        "description": "Ng-zorro admin panel front-end framework"
+        "name": "CRSC_W",
+        "description": "课堂在线签到系统：web端"
     },
     "user": {
         "name": "Admin",
         "avatar": "./assets/img/avatar.jpg",
         "email": "cipchk@qq.com"
     },
-    "menu": [{
+    "menu": [
+        {
+            "text": "菜单列表",
+            "i18n": "main_menu",
+            "group": true,
+            "hideInBreadcrumb": true,
+            "children": [{
+                "text": "基本管理",
+                "i18n": "basic_management",
+                "icon": "anticon anticon-cloud-o",
+                "children": [{}]
+            },{
+                "text": "权限管理",
+                "i18n": "acl_management",
+                "icon": "icon-user",
+                "children": [{
+                    "text": "菜单管理",
+                    "link": "/dashboard/v1",
+                    "i18n": "menu_management"
+                },{
+                    "text": "角色管理",
+                    "link": "/dashboard/v1",
+                    "i18n": "role_management"
+                },{
+                    "text": "用户管理",
+                    "link": "/dashboard/v1",
+                    "i18n": "user_management"
+                }]
+            },{
+                "text": "应用功能",
+                "i18n": "function_management",
+                "icon": "icon-grid",
+                "children": [{
+                    "text": "课程管理",
+                    "link": "",
+                    "i18n": "course_management"
+                },{
+                    "text": "签到管理",
+                    "link": "",
+                    "i18n": "sign_management"
+                },{
+                    "text": "教师授课信息",
+                    "link": "",
+                    "i18n": "teaching_course_massage"
+                }]
+            }]
+        },
+        {
         "text": "主导航",
         "i18n": "main_navigation",
         "group": true,

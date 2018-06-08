@@ -115,7 +115,8 @@ export class UserLoginComponent implements OnDestroy {
             // 否则直接跳转
             let passwdMd5 = Md5.hashStr(this.password.value);
             // let loginUrl = 'http://cattermu.top/CRSS/index.php/Admin/Login/checkLoginClient/type/1/name/'+this.userName.value+'/pwd/'+passwdMd5;
-            let loginUrl = 'Admin/Login/checkLoginClient/';
+            let loginUrl = 'CRSS/index.php/login';
+            // let loginUrl = 'CRSS/index.php/Admin/Login/checkLoginClient/';
             console.log(loginUrl+" "+this.userName.value+" "+passwdMd5 );
             const headers = new HttpHeaders().set("Content-Type", "application/json");
             let body = {

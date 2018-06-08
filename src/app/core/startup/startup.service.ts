@@ -38,6 +38,8 @@ export class StartupService {
                     return [langData, appData];
                 })
             ).subscribe(([langData, appData]) => {
+                console.log("加载数据");
+                console.log(this.i18n.defaultLang);
                 // setting language data
                 this.translate.setTranslation(this.i18n.defaultLang, langData);
                 this.translate.setDefaultLang(this.i18n.defaultLang);

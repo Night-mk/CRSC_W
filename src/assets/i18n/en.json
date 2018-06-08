@@ -64,5 +64,16 @@
     "pro-user": "Account",
     "pro-login": "Login",
     "pro-register": "Register",
-    "pro-register-result": "Register Result"
+    "pro-register-result": "Register Result",
+
+    "main_menu": "菜单列表",
+    "basic_management": "基本管理",
+    "acl_management": "权限管理",
+    "menu_management": "菜单管理",
+    "role_management": "角色管理",
+    "user_management": "用户管理",
+    "function_management": "应用功能",
+    "course_management":"课程管理",
+    "sign_management": "签到管理",
+    "teaching_course_massage": "教师授课信息"
 }
