@@ -20,14 +20,14 @@ change | 编辑器内容发生改变时会触发该事件 | `(html: string) => v
 
 ```ts
 schema = {
-    properties: {
-        remark: {
-            type: 'string',
-            title: '描述',
-            ui: {
-                widget: 'ueditor'
-            }
-        }
+  properties: {
+    remark: {
+      type: 'string',
+      title: '描述',
+      ui: {
+        widget: 'ueditor'
+      }
     }
+  }
 }
 ```
