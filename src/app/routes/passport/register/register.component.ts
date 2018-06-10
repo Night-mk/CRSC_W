@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
+import {_HttpClient} from '@delon/theme';
 
 @Component({
     selector: 'passport-register',
@@ -23,7 +24,7 @@ export class UserRegisterComponent implements OnDestroy {
         pool: 'exception'
     };
 
-    constructor(fb: FormBuilder, private router: Router, public msg: NzMessageService) {
+    constructor(fb: FormBuilder, private router: Router, public msg: NzMessageService, public http: _HttpClient) {
         this.form = fb.group({
             mail: [null, [Validators.email]],
             password: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.checkPassword.bind(this)]],
@@ -71,7 +72,25 @@ export class UserRegisterComponent implements OnDestroy {
     count = 0;
     interval$: any;
 
+    /**
+     * 获取邮箱验证码
+     */
     getCaptcha() {
+        //发送邮箱验证码
+        let captchaUrl = "CRSS/index.php/register";
+        let email = this.mail.value;
+        this.http.get(
+            captchaUrl,
+            {params: email}
+        ).subscribe((data)=>{
+            if(data['status']==0){
+                //显示发送成功
+                console.log("send success");
+            }
+        }, response => {
+            console.log("GET call in error", response);
+        });
+
         this.count = 59;
         this.interval$ = setInterval(() => {
             this.count -= 1;
