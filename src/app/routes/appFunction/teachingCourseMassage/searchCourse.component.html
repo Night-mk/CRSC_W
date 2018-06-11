@@ -1,0 +1,67 @@
+<nz-card [nzBordered]="false">
+    <nz-row [nzGutter]="{ md: 8, lg: 24, xl: 48 }">
+        <button class="btn-box" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" (click)="getCourseData()">
+            查询授课安排
+        </button>
+        <button class="btn-box" nz-button (click)="openAddCoursePage()" [nzType]="'primary'">
+            <i class="anticon anticon-plus"></i><span>添加课程</span>
+        </button>
+    </nz-row>
+
+
+    <simple-table #st [columns]="columns" [data]="courseDetailData" [loading]="loading">
+        <!--<ng-template st-row="status" let-i>-->
+        <!--<nz-badge [nzStatus]="i.statusType" [nzText]="i.statusText"></nz-badge>-->
+        <!--</ng-template>-->
+    </simple-table>
+</nz-card>
+
+<!--添加课程表模态框-->
+<nz-modal [(nzVisible)]="isVisible" [nzFooter]="null" nzTitle="课程列表" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <form nz-form [formGroup]="form" >
+        <nz-form-item>
+            <nz-form-label nzSpan="5" nzRequired>开始周</nz-form-label>
+            <nz-form-control [nzSpan]="5">
+                <nz-select formControlName="start_week" >
+                    <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.start_week"></nz-option>
+                </nz-select>
+            </nz-form-control>
+
+            <nz-form-label nzSpan="5" nzRequired>结束周</nz-form-label>
+            <nz-form-control [nzSpan]="5">
+                <nz-select formControlName="end_week">
+                    <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.end_week"></nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzSpan="5" nzRequired>授课星期</nz-form-label>
+            <nz-form-control [nzSpan]="5">
+                <nz-select formControlName="week">
+                    <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.week"></nz-option>
+                </nz-select>
+            </nz-form-control>
+
+            <nz-form-label nzSpan="5" nzRequired>授课时段</nz-form-label>
+            <nz-form-control [nzSpan]="5">
+                <nz-select formControlName="time">
+                    <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.time"></nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzSpan="5" nzRequired nzFor="course_address">上课教室</nz-form-label>
+            <nz-form-control nzSpan="19">
+                <input nz-input formControlName="course_address" id="course_address">
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-control [nzSpan]="19" [nzOffset]="5">
+                <button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="addCourseDetail()">添加</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-modal>

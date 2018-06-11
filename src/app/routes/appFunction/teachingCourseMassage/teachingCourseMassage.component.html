@@ -1,3 +1,8 @@
-<div>
-  <p>教师授课信息</p>
-</div>
+<page-header [title]="'教师授课信息'">
+    教师查阅授课信息
+</page-header>
+<nz-card [nzBordered]="false">
+    <app-search-course *ngIf="skip.step==0"></app-search-course>
+    <app-add-course *ngIf="skip.step==1"></app-add-course>
+    <app-course-detail *ngIf="skip.step==2"></app-course-detail>
+</nz-card>

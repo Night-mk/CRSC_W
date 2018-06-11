@@ -73,7 +73,10 @@ export class ProTableListComponent implements OnInit {
                 return i;
             })),
             tap(() => this.loading = false)
-        ).subscribe(res => this.data = res);
+        ).subscribe(res => {
+            console.log(res);
+            this.data = res
+        });
     }
 
     checkboxChange(list: SimpleTableData[]) {

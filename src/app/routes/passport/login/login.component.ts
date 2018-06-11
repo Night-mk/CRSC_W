@@ -1,4 +1,4 @@
-import { SettingsService } from '@delon/theme';
+import {_HttpClient, SettingsService} from '@delon/theme';
 import { Component, OnDestroy, Inject, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -8,7 +8,7 @@ import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core/startup/startup.service';
 import { Md5 } from "ts-md5/dist/md5";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 @Component({
     selector: 'passport-login',
@@ -93,13 +93,6 @@ export class UserLoginComponent implements OnDestroy {
         this.loading = true;
         setTimeout(() => {
             this.loading = false;
-            // if (this.type === 0) {
-            //     if (this.userName.value !== 'admin' || this.password.value !== '888888') {
-            //         this.error = `账户或密码错误`;
-            //         return;
-            //     }
-            // }
-
             // 清空路由复用信息
             this.reuseTabService.clear();
             // 设置Token信息
@@ -114,22 +107,31 @@ export class UserLoginComponent implements OnDestroy {
             // this.startupSrv.load().then(() => this.router.navigate(['/']));
             // 否则直接跳转
             let passwdMd5 = Md5.hashStr(this.password.value);
-            // let loginUrl = 'http://cattermu.top/CRSS/index.php/Admin/Login/checkLoginClient/type/1/name/'+this.userName.value+'/pwd/'+passwdMd5;
-            let loginUrl = 'CRSS/index.php/login';
+            let loginUrl = '/CRSS/index.php/Login/login/type/1/name/'+this.userName.value+'/pwd/'+passwdMd5;
+            // let loginUrl = '/CRSS/index.php/Login/login';
             // let loginUrl = 'CRSS/index.php/Admin/Login/checkLoginClient/';
             console.log(loginUrl+" "+this.userName.value+" "+passwdMd5 );
-            const headers = new HttpHeaders().set("Content-Type", "application/json");
-            let body = {
-                "type": 1,
-                "name": this.userName.value,
-                "pwd": passwdMd5
-            };
+            // const headers = new HttpHeaders(
+            //     {
+            //                 "Content-Type" : "application/x-www-form-urlencoded;",
+            //                 "Accept" : "application/json"
+            //             }
+            //     );
+            // let payload = {
+            //     type: '1',
+            //     name: this.userName.value,
+            //     pwd: passwdMd5
+            // };
+            const body = new HttpParams().set('type','1');
+            body.set('type','1');
+            body.set('name', this.userName.value);
+            body.set('pwd', passwdMd5.toString());
+
             //get登陆请求
-            this.http.post(
-                loginUrl,
-                body
-            ).subscribe(
-                (data) => {
+            this.http.get(
+                loginUrl
+                // {params: body}
+            ).subscribe((data) => {
                     console.log(data);
                     if(data['status'] == 0){
                         console.log('go to login page POST');
@@ -137,7 +139,7 @@ export class UserLoginComponent implements OnDestroy {
                     }
                 },
                 response => {
-                    console.log("POST call in error", response);
+                    console.log("GET call in error", response);
                 }
             );
         }, 1000);

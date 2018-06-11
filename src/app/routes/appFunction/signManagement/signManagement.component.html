@@ -4,39 +4,13 @@
 
 <!--签到信息-->
 <nz-card [nzBordered]="false" nzTitle="课程签到信息" class="mb-lg" *ngIf="hasSignData">
-  <!--<desc-list class="mb-lg">-->
-    <!--<desc-list-item term="授课课程">付小小</desc-list-item>-->
-    <!--<desc-list-item term="授课班级">32943898021309809423</desc-list-item>-->
-  <!--</desc-list>-->
-  <!--<nz-divider class="mb-md"></nz-divider>-->
-  <!--<desc-list class="mb-lg" title="信息组">-->
-    <!--<desc-list-item term="某某数据">725</desc-list-item>-->
-    <!--<desc-list-item term="该数据更新时间">2017-08-08</desc-list-item>-->
-    <!--<desc-list-item>&nbsp;</desc-list-item>-->
-    <!--<desc-list-item [term]="term">-->
-      <!--<ng-template #term>-->
-        <!--某某数据-->
-        <!--<nz-tooltip [nzTitle]="'数据说明'">-->
-          <!--<span nz-tooltip><i class="anticon anticon-info-circle-o"></i></span>-->
-        <!--</nz-tooltip>-->
-      <!--</ng-template>-->
-      <!--725-->
-    <!--</desc-list-item>-->
-    <!--<desc-list-item term="该数据更新时间">2017-08-08</desc-list-item>-->
-  <!--</desc-list>-->
-  <!--<h4 class="mb-md">信息组</h4>-->
   <div *ngFor="let courseItem of courseSignData; index as i;">
     <nz-card nzType="inner" nzTitle="课程{{i+1}}" >
       <desc-list size="small" title="基本教学信息" class="mb-md">
         <desc-list-item term="授课课程">kkk</desc-list-item>
         <desc-list-item term="授课班级">1234567</desc-list-item>
       </desc-list>
-      <!--<nz-divider class="mb-md"></nz-divider>-->
-      <!--<desc-list size="small" title="" col="1" class="mb-md">-->
-        <!--<desc-list-item term="学名">-->
-          <!--Citrullus lanatus (Thunb.) Matsum. et Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..-->
-        <!--</desc-list-item>-->
-      <!--</desc-list>-->
+
       <nz-divider class="mb-md"></nz-divider>
       <desc-list size="small" title="签到信息">
         <desc-list-item term="已上学时">付小小</desc-list-item>

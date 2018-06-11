@@ -6,11 +6,20 @@ import { AppFunctionRoutingModule } from './appFunction-routing.module';
 import {CourseManagementComponent} from './courseManagement/courseManagement.component';
 import {SignManagementComponent} from './signManagement/signManagement.component';
 import {TeachingCourseMassageComponent} from './teachingCourseMassage/teachingCourseMassage.component';
+import {AddCourseComponent} from './teachingCourseMassage/addCourse.component';
+import {SearchCourseComponent} from './teachingCourseMassage/searchCourse.component';
+import {CourseDetailComponent} from './teachingCourseMassage/courseDetail.component';
 
 const COMPONENTS = [
     CourseManagementComponent,
     SignManagementComponent,
     TeachingCourseMassageComponent
+];
+
+const COMPONENTS_NOROUNT = [
+    AddCourseComponent,
+    SearchCourseComponent,
+    CourseDetailComponent
 ];
 
 @NgModule({
@@ -20,6 +29,9 @@ const COMPONENTS = [
         AppFunctionRoutingModule
     ],
     providers: [  ],
-    declarations: COMPONENTS
+    declarations: [
+        COMPONENTS,
+        COMPONENTS_NOROUNT
+    ]
 })
 export class AppFunctionModule { }
