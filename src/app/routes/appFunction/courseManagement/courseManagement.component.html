@@ -1,3 +1,53 @@
-<div>
-  <p>课程管理</p>
-</div>
+<page-header [title]="'课程管理'">
+  管理员可增加课程
+</page-header>
+<form nz-form [formGroup]="form" (ngSubmit)="submit()">
+    <nz-form-item>
+      <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="courseName">课程名</nz-form-label>
+      <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <input nz-input id="courseName" placeholder="请输入课程名">
+        <nz-form-explain *ngIf="form.get('courseName').dirty && form.get('courseName').errors">请输入课程名</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="courseID">课程号</nz-form-label>
+      <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <input nz-input  id="courseID" placeholder="请输入课程号">
+        <nz-form-explain *ngIf="form.get('courseID').dirty && form.get('courseID').errors">请输入课程号</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="courseTime">学时</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input id="courseTime" placeholder="请输入学时">
+          <nz-form-explain *ngIf="form.get('courseTime').dirty && form.get('courseTime').errors">请输入学时</nz-form-explain>
+        </nz-form-control>
+     </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="school">学校</nz-form-label>
+    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+      <input nz-input id="school" placeholder="请输入学校">
+      <nz-form-explain *ngIf="form.get('school').dirty && form.get('school').errors">请输入学校</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="college">学院</nz-form-label>
+    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+      <input nz-input id="college" placeholder="请输入学院">
+      <nz-form-explain *ngIf="form.get('college').dirty && form.get('college').errors">请输入学院</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="profession">专业</nz-form-label>
+    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+      <input nz-input id="profession" placeholder="请输入专业">
+      <nz-form-explain *ngIf="form.get('profession').dirty && form.get('profession').errors">请输入专业</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+        <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="createNotification('success')">保存</button>
+        <button nz-button class="ml-sm">取消</button>
+      </nz-form-control>
+    </nz-form-item>
+</form>
