@@ -24,6 +24,9 @@ export class UserRegisterComponent implements OnDestroy {
         pool: 'exception'
     };
 
+    //接口链接
+    captchaUrl = "CRSS/index.php/Register/send_mail";
+
     constructor(fb: FormBuilder, private router: Router, public msg: NzMessageService, public http: _HttpClient) {
         this.form = fb.group({
             mail: [null, [Validators.email]],
@@ -77,11 +80,10 @@ export class UserRegisterComponent implements OnDestroy {
      */
     getCaptcha() {
         //发送邮箱验证码
-        let captchaUrl = "CRSS/index.php/register";
         let email = this.mail.value;
+        let captchaUrl = this.captchaUrl+'/'+email;
         this.http.get(
-            captchaUrl,
-            {params: email}
+            captchaUrl
         ).subscribe((data)=>{
             if(data['status']==0){
                 //显示发送成功

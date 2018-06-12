@@ -95,14 +95,8 @@ export class UserLoginComponent implements OnDestroy {
             this.loading = false;
             // 清空路由复用信息
             this.reuseTabService.clear();
-            // 设置Token信息
-            this.tokenService.set({
-                token: '123456789',
-                name: this.userName.value,
-                email: `1561495202@qq.com`,
-                id: 10000,
-                time: +new Date
-            });
+
+
             // 重新获取 StartupService 内容，若其包括 User 有关的信息的话
             // this.startupSrv.load().then(() => this.router.navigate(['/']));
             // 否则直接跳转
@@ -122,19 +116,30 @@ export class UserLoginComponent implements OnDestroy {
             //     name: this.userName.value,
             //     pwd: passwdMd5
             // };
-            const body = new HttpParams().set('type','1');
-            body.set('type','1');
-            body.set('name', this.userName.value);
-            body.set('pwd', passwdMd5.toString());
+            // const body = new HttpParams().set('type','1');
+            // body.set('type','1');
+            // body.set('name', this.userName.value);
+            // body.set('pwd', passwdMd5.toString());
 
             //get登陆请求
             this.http.get(
                 loginUrl
-                // {params: body}
             ).subscribe((data) => {
                     console.log(data);
                     if(data['status'] == 0){
                         console.log('go to login page POST');
+                        let resData = data['data'];
+                        // 设置Token信息
+                        this.tokenService.set({
+                            token: '123456789',
+                            name: this.userName.value,
+                            email: `1561495202@qq.com`,
+                            id: 10000,
+                            time: +new Date,
+                            uid: resData.id,
+                            gid: resData.gid[0].group_id
+                        });
+                        console.log(this.tokenService.get());
                         this.router.navigate(['/']);
                     }
                 },

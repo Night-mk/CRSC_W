@@ -6,7 +6,8 @@
   "user": {
     "name": "Admin",
     "avatar": "./assets/img/avatar.jpg",
-    "email": "cipchk@qq.com"
+    "email": "cipchk@qq.com",
+    "token": "123456"
   },
   "menu": [
     {

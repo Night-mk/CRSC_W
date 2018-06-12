@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {map, tap} from 'rxjs/operators';
 import {SimpleTableColumn, SimpleTableComponent} from '@delon/abc';
 import {NzNotificationService} from 'ng-zorro-antd';
 import {SkipService} from './skip.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
 
 @Component({
     selector: 'app-search-course',
@@ -22,6 +23,19 @@ export class SearchCourseComponent implements OnInit{
     currentCourseId: string;
 
     courseDetailData: any[] = [];
+    urlTemplate = 'CRSS/index.php/';
+    requestUrlList = {
+        readAddressUrl : this.urlTemplate+'TeachingPlace/read'
+    };
+
+    //选择信息课程列表
+    selectCourseList = {
+        select_start_week: null,
+        select_end_week: null,
+        select_week: null,
+        select_time: null,
+        select_course_address: null
+    };
 
     @ViewChild('st') st: SimpleTableComponent;
     columns: SimpleTableColumn[] = [
@@ -44,7 +58,8 @@ export class SearchCourseComponent implements OnInit{
     constructor(private http: _HttpClient,
                 private notification: NzNotificationService,
                 public skip: SkipService,
-                private fb: FormBuilder) {
+                private fb: FormBuilder,
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
         this.courseDetailData = [
             {
                 term_year: '2018-2019学年',
@@ -151,11 +166,11 @@ export class SearchCourseComponent implements OnInit{
      */
     addCourseDetail(courseId){
         let addCourseDetailUrl = '';
-        let body = '';
+        console.log(this.selectCourseList.select_course_address);
+
         //获取body数据
-        this.http.post(
-            addCourseDetailUrl,
-            body
+        this.http.get(
+            addCourseDetailUrl
         ).subscribe((data)=>{
             if(data['status']==0){
                 this.createBasicNotification('添加课程细节','添加成功');
@@ -194,12 +209,31 @@ export class SearchCourseComponent implements OnInit{
      */
     openAddCourseDetailModel(){
         this.showModal();
-    }
-    /**
-     * 关闭添加课程表细节模态框
-     */
-    closeAddCourseDetailModel(){
 
+        this.getCourseAddressList();
+    }
+
+    /**
+     * 获取教学地点列表
+     */
+    getCourseAddressList(){
+        let url = this.requestUrlList.readAddressUrl+
+            '/gid/'+this.tokenService.get().gid+'/uid/'+this.tokenService.get().uid;
+
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                //设置授课教室地址
+                this.skip.course_address = data['data'];
+                console.log('address get ok');
+            }else{
+                console.log('address get error');
+            }
+        },response => {
+            console.log("GET call in error", response);
+        });
     }
 
     /**

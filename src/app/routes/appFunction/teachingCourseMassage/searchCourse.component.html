@@ -22,14 +22,14 @@
         <nz-form-item>
             <nz-form-label nzSpan="5" nzRequired>开始周</nz-form-label>
             <nz-form-control [nzSpan]="5">
-                <nz-select formControlName="start_week" >
+                <nz-select formControlName="start_week" [(ngModel)]="selectCourseList.select_start_week">
                     <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.start_week"></nz-option>
                 </nz-select>
             </nz-form-control>
 
             <nz-form-label nzSpan="5" nzRequired>结束周</nz-form-label>
             <nz-form-control [nzSpan]="5">
-                <nz-select formControlName="end_week">
+                <nz-select formControlName="end_week" [(ngModel)]="selectCourseList.select_end_week">
                     <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.end_week"></nz-option>
                 </nz-select>
             </nz-form-control>
@@ -38,24 +38,33 @@
         <nz-form-item>
             <nz-form-label nzSpan="5" nzRequired>授课星期</nz-form-label>
             <nz-form-control [nzSpan]="5">
-                <nz-select formControlName="week">
+                <nz-select formControlName="week" [(ngModel)]="selectCourseList.select_week">
                     <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.week"></nz-option>
                 </nz-select>
             </nz-form-control>
 
             <nz-form-label nzSpan="5" nzRequired>授课时段</nz-form-label>
             <nz-form-control [nzSpan]="5">
-                <nz-select formControlName="time">
+                <nz-select formControlName="time" [(ngModel)]="selectCourseList.select_time">
                     <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.time"></nz-option>
                 </nz-select>
             </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
-            <nz-form-label nzSpan="5" nzRequired nzFor="course_address">上课教室</nz-form-label>
-            <nz-form-control nzSpan="19">
-                <input nz-input formControlName="course_address" id="course_address">
+            <nz-form-label nzSpan="5" nzRequired>上课教室</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+                <nz-select formControlName="course_address" [(ngModel)]="selectCourseList.select_course_address">
+                    <!--[nzLabel]表示显示的内容，[nzValue]表示获取的内容-->
+                    <nz-option [nzLabel]="data.building_name+' '+data.name+' '+data.title"
+                               [nzValue]="data.id"
+                               *ngFor="let data of skip.course_address"></nz-option>
+                </nz-select>
             </nz-form-control>
+            <!--<nz-form-label nzSpan="5" nzRequired nzFor="course_address">上课教室</nz-form-label>-->
+            <!--<nz-form-control nzSpan="19">-->
+                <!--<input nz-input formControlName="course_address" id="course_address">-->
+            <!--</nz-form-control>-->
         </nz-form-item>
 
         <nz-form-item>

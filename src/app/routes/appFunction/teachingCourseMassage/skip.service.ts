@@ -39,6 +39,11 @@ export class SkipService {
      */
     time: any;
 
+    /**
+     * 授课教室
+     */
+    course_address: any;
+
 
     again() {
         this.step = 0;
