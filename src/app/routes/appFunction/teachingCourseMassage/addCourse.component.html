@@ -2,7 +2,7 @@
     <nz-form-item>
         <nz-form-label nzSpan="5" nzRequired>学年</nz-form-label>
         <nz-form-control [nzSpan]="19">
-            <nz-select formControlName="term_year" >
+            <nz-select formControlName="term_year" [(ngModel)]="AddCourseList.term_year">
                 <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.term_year"></nz-option>
             </nz-select>
         </nz-form-control>
@@ -10,9 +10,15 @@
     <nz-form-item>
         <nz-form-label nzSpan="5" nzRequired>学期</nz-form-label>
         <nz-form-control [nzSpan]="19">
-            <nz-select formControlName="term_year">
-                <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.term"></nz-option>
+            <nz-select formControlName="term_year" [(ngModel)]="AddCourseList.term_id">
+                <nz-option [nzLabel]="data.term_name" [nzValue]="data.term_id" *ngFor="let data of skip.term"></nz-option>
             </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzRequired nzFor="student_number">上课人数</nz-form-label>
+        <nz-form-control [nzSpan]="19">
+            <input nz-input formControlName="student_number" id="student_number" [(ngModel)]="AddCourseList.student_number">
         </nz-form-control>
     </nz-form-item>
 
@@ -24,7 +30,7 @@
                 <input nz-input formControlName="course_name" id="course_name" readonly="readonly" type="text" nz-input placeholder="选择课程">
             </nz-input-group>
             <ng-template #suffixButton>
-                <button nz-button nzType="primary" nzSearch (click)="showModal()">查询课程</button>
+                <button nz-button nzType="primary" nzSearch [nzLoading]="loading" (click)="openChooseCourseModal()">查询课程</button>
             </ng-template>
             <!--<ng-container *ngIf="receiver_name.dirty || receiver_name.touched">-->
                 <!--<nz-form-explain *ngIf="receiver_name.errors?.required">请输入收款姓名</nz-form-explain>-->
@@ -42,8 +48,9 @@
 </form>
 
 <!--课程信息模态框-->
-<nz-modal [(nzVisible)]="isVisible" nzTitle="课程列表" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-    <nz-table #basicTable [nzData]="detailsDataSet">
+<!--<nz-modal [(nzVisible)]="isVisible" nzTitle="课程列表" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">-->
+<nz-modal [(nzVisible)]="isVisible" nzTitle="课程列表" (nzOnCancel)="handleCancel()">
+    <nz-table #basicTable [nzData]="courseList">
         <thead>
         <tr>
             <th>课程名称</th>

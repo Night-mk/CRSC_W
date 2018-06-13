@@ -39,7 +39,7 @@
             <nz-form-label nzSpan="5" nzRequired>授课星期</nz-form-label>
             <nz-form-control [nzSpan]="5">
                 <nz-select formControlName="week" [(ngModel)]="selectCourseList.select_week">
-                    <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.week"></nz-option>
+                    <nz-option [nzLabel]="data.week_name" [nzValue]="data.week_id" *ngFor="let data of skip.week"></nz-option>
                 </nz-select>
             </nz-form-control>
 

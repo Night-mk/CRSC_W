@@ -62,8 +62,14 @@ export class SkipService {
             '2021-2022'
         ];
         this.term = [
-            '春季学期',
-            '秋季学期'
+            {
+                term_name:'第一学期',
+                term_id: 1
+            },
+            {
+                term_name:'第二学期',
+                term_id: 2
+            }
         ];
         this.start_week = [
             '1','2','3','4','5','6','7','8','9','10',
@@ -71,13 +77,34 @@ export class SkipService {
         ];
         this.end_week = this.start_week;
         this.week = [
-            '星期一',
-            '星期二',
-            '星期三',
-            '星期四',
-            '星期五',
-            '星期六',
-            '星期七'
+            {
+                week_name:'星期一',
+                week_id: 1
+            },
+            {
+                week_name:'星期二',
+                week_id: 2
+            },
+            {
+                week_name:'星期三',
+                week_id: 1
+            },
+            {
+                week_name:'星期四',
+                week_id: 1
+            },
+            {
+                week_name:'星期五',
+                week_id: 1
+            },
+            {
+                week_name:'星期六',
+                week_id: 1
+            },
+            {
+                week_name:'星期七',
+                week_id: 1
+            }
         ];
         this.time = [
             '1-2',
