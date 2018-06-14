@@ -153,7 +153,7 @@ export class AddCourseComponent implements OnInit{
      * 返回上一页
      */
     prev(){
-        --this.skip.step;
+        this.skip.step=0;
     }
 
 

@@ -9,6 +9,7 @@ import {TeachingCourseMassageComponent} from './teachingCourseMassage/teachingCo
 import {AddCourseComponent} from './teachingCourseMassage/addCourse.component';
 import {SearchCourseComponent} from './teachingCourseMassage/searchCourse.component';
 import {CourseDetailComponent} from './teachingCourseMassage/courseDetail.component';
+import {SignDetailComponent} from './teachingCourseMassage/signDetail.component';
 
 const COMPONENTS = [
     CourseManagementComponent,
@@ -19,7 +20,8 @@ const COMPONENTS = [
 const COMPONENTS_NOROUNT = [
     AddCourseComponent,
     SearchCourseComponent,
-    CourseDetailComponent
+    CourseDetailComponent,
+    SignDetailComponent
 ];
 
 @NgModule({

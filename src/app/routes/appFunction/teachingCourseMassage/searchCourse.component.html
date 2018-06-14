@@ -9,9 +9,10 @@
     </nz-row>
 
 
-    <simple-table #st [columns]="columns" [data]="courseDetailData" [loading]="loading">
+    <simple-table #st [columns]="columns" [data]="courseDetailData" [loading]="loading"
+                  (filterChange)="getCourseData()">
         <!--<ng-template st-row="status" let-i>-->
-        <!--<nz-badge [nzStatus]="i.statusType" [nzText]="i.statusText"></nz-badge>-->
+            <!--<nz-badge [nzStatus]="i.statusType" [nzText]="i.statusText"></nz-badge>-->
         <!--</ng-template>-->
     </simple-table>
 </nz-card>
@@ -46,7 +47,7 @@
             <nz-form-label nzSpan="5" nzRequired>授课时段</nz-form-label>
             <nz-form-control [nzSpan]="5">
                 <nz-select formControlName="time" [(ngModel)]="selectCourseList.select_time">
-                    <nz-option [nzLabel]="data" [nzValue]="data" *ngFor="let data of skip.time"></nz-option>
+                    <nz-option [nzLabel]="data.time_name" [nzValue]="data.time_id" *ngFor="let data of skip.time"></nz-option>
                 </nz-select>
             </nz-form-control>
         </nz-form-item>

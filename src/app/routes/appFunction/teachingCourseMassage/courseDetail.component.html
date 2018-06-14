@@ -1,0 +1,12 @@
+<nz-card [nzBordered]="false">
+    <p>{{CourseName}}</p>
+    <nz-row [nzGutter]="{ md: 8, lg: 24, xl: 48 }">
+        <button nz-button [nzType]="'primary'" [nzLoading]="loading" class="btn-box" (click)="getCourseTableData()">查询</button>
+        <button nz-button (click)="prev()" class="btn-box">返回查询页</button>
+    </nz-row>
+
+
+    <simple-table #st [columns]="columns" [data]="courseTableData" [loading]="loading"
+                  (filterChange)="getCourseTableData()">
+    </simple-table>
+</nz-card>

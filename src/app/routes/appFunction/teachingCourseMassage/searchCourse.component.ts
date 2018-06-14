@@ -17,15 +17,20 @@ export class SearchCourseComponent implements OnInit{
     form: FormGroup;
     isVisible = false;
     loading = false;
-    courseUrl = '';
 
     //记录当前选择的课程id
+    //选择选择处理的课程信息
     currentCourseId: string;
 
+    //课程表展示数据
     courseDetailData: any[] = [];
+    //接口请求url
     urlTemplate = 'CRSS/index.php/';
     requestUrlList = {
-        readAddressUrl : this.urlTemplate+'TeachingPlace/read'
+        readAddressUrl : this.urlTemplate+'TeachingPlace/read',
+        searchCourseArrangementUrl: this.urlTemplate+'Instruction/read',
+        deleteCourseUrl: this.urlTemplate+'Instruction/delete',
+        generateQRCodeUrl: this.urlTemplate+'QrCode/create_qrcode'
     };
 
     //选择信息课程列表
@@ -47,10 +52,10 @@ export class SearchCourseComponent implements OnInit{
         {
             title: '操作',
             buttons: [
-                { text: '删除', click: (item: any) => this.deleteCourse(item) },
+                { text: '删除', click: (item: any) => this.deleteCourse(`${item.course_id}`) },
                 { text: '添加课程表', click: () => this.openAddCourseDetailModel() },
-                { text: '生成二维码', click: (item: any) => this.generateORCode(item) },
-                { text: '课程详情', click: () =>  this.openCourseDetailPage() }
+                { text: '生成二维码', click: (item: any) => this.generateORCode(`${item.course_id}`) },
+                { text: '课程详情', click: (item: any) =>  this.openCourseDetailPage(`${item.course_id}`) }
             ]
         }
     ];
@@ -60,20 +65,8 @@ export class SearchCourseComponent implements OnInit{
                 public skip: SkipService,
                 private fb: FormBuilder,
                 @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
-        this.courseDetailData = [
-            {
-                term_year: '2018-2019学年',
-                term: '秋季学期',
-                course_No: '0056007',
-                course_name: '计算机网络'
-            },
-            {
-                term_year: '2018-2019学年',
-                term: '秋季学期',
-                course_No: '0056007',
-                course_name: '计算机网络'
-            }
-        ];
+
+        this.getCourseData();
     }
 
     ngOnInit(){
@@ -101,22 +94,41 @@ export class SearchCourseComponent implements OnInit{
      */
     getCourseData() {
         this.loading = true;
-        setTimeout(()=>{
-            //发起请求
-            let teacherId = {};
-
-            this.http.post(
-                this.courseUrl,
-                teacherId
-            ).subscribe((data)=>{
-                console.log(data);
+        //发起请求
+        let url = this.requestUrlList.searchCourseArrangementUrl+'/uid/'+this.tokenService.get().uid;
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                this.courseDetailData = [];
+                //处理相关数据
+                for(let course_detail of data['data']){
+                    let term_data = '';
+                    if(course_detail.term==1){
+                        term_data = this.skip.term[0].term_name;
+                    }else{
+                        term_data = this.skip.term[1].term_name;
+                    }
+                    let courseData = {
+                            term_year: course_detail.teaching_year+'学年',
+                            term: term_data,
+                            course_No: course_detail.course_id,
+                            course_name: course_detail.course_name,
+                            course_id: course_detail.id
+                        };
+                    this.courseDetailData.push(courseData);
+                }
                 this.loading = false;
-            },response=>{
-                console.log("POST call in error", response);
-            })
+                console.log(this.courseDetailData);
+            }else{
+                this.createBasicNotification('查询授课安排','查询失败');
+            }
+            this.loading = false;
+        },response=>{
+            console.log("POST call in error", response);
+        });
 
-        }, 1000);
-        this.loading = false;
     }
 
     /**
@@ -127,26 +139,14 @@ export class SearchCourseComponent implements OnInit{
     }
 
     /**
-     * 打开课程详情页面
-     */
-    openCourseDetailPage(){
-        this.skip.step = 2;
-    }
-
-    /**
      * 删除课程
      * @param courseId
      */
     deleteCourse(courseId){
-        let teacherId = '';
-        let deleteUrl = '';
-        let payload = {
-            teacher: teacherId,
-            courseId: courseId
-        };
+        let url = this.requestUrlList.deleteCourseUrl+'/id/'+courseId;
+        console.log(url);
         this.http.get(
-            deleteUrl,
-            payload
+            url
         ).subscribe((data)=>{
             console.log("delete data");
             if(data['status']==0){
@@ -160,13 +160,22 @@ export class SearchCourseComponent implements OnInit{
             this.createBasicNotification('删除课程','删除请求提交失败，请检查网络并重试');
         });
     }
+
+    /**
+     * 打开添加课程表模态框
+     */
+    openAddCourseDetailModel(){
+        this.showModal();
+        this.getCourseAddressList();
+    }
+
     /**
      * 添加课程表细节
      * @param courseId
      */
     addCourseDetail(courseId){
         let addCourseDetailUrl = '';
-        console.log(this.selectCourseList.select_course_address);
+        console.log(this.selectCourseList);
 
         //获取body数据
         this.http.get(
@@ -187,12 +196,12 @@ export class SearchCourseComponent implements OnInit{
      * @param courseId
      */
     generateORCode(courseId){
-        let generateORCodeUrl = '';
-        let body = '';
-        this.http.post(
-            generateORCodeUrl,
-            body
+        let url = this.requestUrlList.generateQRCodeUrl+'/code/'+courseId;
+        console.log(url);
+        this.http.get(
+            url
         ).subscribe((data)=>{
+            console.log(data);
             if(data['status']==0){
                 this.createBasicNotification('生成课程二维码','生成成功');
             }else{
@@ -204,13 +213,14 @@ export class SearchCourseComponent implements OnInit{
         });
     }
 
-    /**
-     * 打开添加课程表模态框
-     */
-    openAddCourseDetailModel(){
-        this.showModal();
 
-        this.getCourseAddressList();
+
+    /**
+     * 打开课程详情页面
+     */
+    openCourseDetailPage(courseId){
+        this.skip.cid = courseId;
+        this.skip.step = 2;
     }
 
     /**
