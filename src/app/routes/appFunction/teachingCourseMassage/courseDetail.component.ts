@@ -3,6 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import { SkipService } from './skip.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SimpleTableColumn, SimpleTableComponent} from '@delon/abc';
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
     selector: 'app-course-detail',
@@ -34,14 +35,16 @@ export class CourseDetailComponent{
         {
             title: '操作',
             buttons: [
-                { text: '签到详情', click: (item: any) =>  this.openSignDetailPage(`${item.id}`) }
+                { text: '签到详情', click: (item: any) =>  this.openSignDetailPage(`${item.id}`,`${item.col}`,`${item.row}`) }
             ]
         }
     ];
 
     constructor(private http: _HttpClient,
-                public skip: SkipService) {
-
+                public skip: SkipService,
+                private notification: NzNotificationService) {
+        //预获取课程表数据
+        this.getCourseTableData();
     }
 
     /**
@@ -54,6 +57,7 @@ export class CourseDetailComponent{
         this.http.get(
             url
         ).subscribe((data)=>{
+            console.log(data);
             if(data['status']==0){
                 console.log(data['data']);
                 //处理数据
@@ -64,24 +68,18 @@ export class CourseDetailComponent{
                 //2、for循环处理特殊数据
                 for(let course_table_data of courseTableDataList){
                     course_table_data.week = this.changeWeek2String(course_table_data.week);
-                    // let tableData = {
-                    //     teaching_week: course_table_data.teaching_week,
-                    //     week: course_table_data.week,
-                    //     time: course_table_data.time,
-                    //     class_room: course_table_data.class_room,
-                    //     teacher: course_table_data.teacher,
-                    //     period: course_table_data.period,
-                    //     id: course_table_data.id
-                    // };
                     this.courseTableData.push(course_table_data);
                 }
-                this.loading = false;
                 console.log(this.courseTableData);
             }else{
+                this.createBasicNotification('查询失败','未安排课程');
                 console.log('get course table error');
             }
+            this.loading = false;
         },response => {
             console.log("GET call in error", response);
+            this.createBasicNotification('查询失败','请检查网络');
+            this.loading = false;
         });
     }
 
@@ -107,7 +105,10 @@ export class CourseDetailComponent{
     /**
      * 打开签到详情页面
      */
-    openSignDetailPage(courseId){
+    openSignDetailPage(courseId, col, row){
+        this.skip.period_id = courseId;
+        this.skip.col = col;
+        this.skip.row = row;
         this.skip.step++;
     }
 
@@ -116,5 +117,14 @@ export class CourseDetailComponent{
      */
     prev(){
         this.skip.step=0;
+    }
+
+    /**
+     * 简单提示框
+     * @param title
+     * @param content
+     */
+    createBasicNotification(title, content): void {
+        this.notification.blank( title, content);
     }
 }
