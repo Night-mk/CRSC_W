@@ -134,6 +134,7 @@ export class AddCourseComponent implements OnInit{
             this.http.get(
                 url
             ).subscribe((data)=>{
+                console.log(data);
                 if(data['status']==0){
                     this.createBasicNotification('添加课程','添加成功');
                     this.skip.step = 0;
