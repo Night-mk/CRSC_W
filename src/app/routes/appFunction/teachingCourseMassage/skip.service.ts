@@ -7,7 +7,7 @@ export class SkipService {
      * 页码数
      * @type {number}
      */
-    step: 0 | 1 | 2 = 1;
+    step: 0 | 1 | 2 | 3 = 0;
 
     /**
      * 学年
@@ -43,6 +43,18 @@ export class SkipService {
      * 授课教室
      */
     course_address: any;
+
+    /**
+     * 授课id：cid
+     * 用于从search跳转向courseDetail传递数据
+     */
+    cid: any;
+
+    /**
+     * 课表id：period_id
+     * 用于从courseDetail跳转向signDetail传递数据
+     */
+    period_id: any;
 
 
     again() {
@@ -107,11 +119,22 @@ export class SkipService {
             }
         ];
         this.time = [
-            '1-2',
-            '3-4',
-            '5-6',
-            '7-8',
-            '9-10'
+            {
+                time_name: '1-2',
+                time_id: 1
+            },{
+                time_name: '3-4',
+                time_id: 2
+            },{
+                time_name: '5-6',
+                time_id: 3
+            },{
+                time_name: '7-8',
+                time_id: 4
+            },{
+                time_name: '9-10-11',
+                time_id: 5
+            }
         ];
     }
 

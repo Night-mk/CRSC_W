@@ -19,7 +19,23 @@
         "text": "基本管理",
         "i18n": "basic_management",
         "icon": "anticon anticon-cloud-o",
-        "children": [{}]
+        "children": [{
+          "text": "作息时间",
+          "link": "/aclManagement/menu-management",
+          "i18n": "time_table"
+        },{
+          "text": "组织结构",
+          "link": "/aclManagement/menu-management",
+          "i18n": "organization"
+        },{
+          "text": "开学时间",
+          "link": "/aclManagement/menu-management",
+          "i18n": "term_start_time"
+        },{
+          "text": "教学地点",
+          "link": "/aclManagement/menu-management",
+          "i18n": "teaching_address"
+        }]
       },{
         "text": "权限管理",
         "i18n": "acl_management",
@@ -42,11 +58,11 @@
         "i18n": "function_management",
         "icon": "icon-grid",
         "children": [{
-          "text": "课程管理1",
+          "text": "课程管理",
           "link": "/appFunction/course-management",
           "i18n": "course_management"
         },{
-          "text": "签到管理",
+          "text": "考勤统计",
           "link": "/appFunction/sign-management",
           "i18n": "sign_management"
         },{
