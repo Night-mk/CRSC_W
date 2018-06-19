@@ -1,0 +1,18 @@
+<page-header [title]="'课程管理'">
+  管理员可增加课程
+</page-header>
+<nz-card [nzBordered]="false">
+  <nz-row [nzGutter]="{ md: 8, lg: 24, xl: 48 }">
+    <button class="btn-box" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" (click)="getCourseData()">
+      课程管理
+    </button>
+    <button class="btn-box" nz-button (click)="AddCourse()" [nzType]="'primary'">
+      <i class="anticon anticon-plus"></i><span>添加课程</span>
+    </button>
+  </nz-row>
+
+  <simple-table #st [columns]="columns" [data]="courseDetailData" [loading]="loading"
+  >
+  </simple-table>
+
+</nz-card>
