@@ -137,7 +137,8 @@ export class UserLoginComponent implements OnDestroy {
                             id: 10000,
                             time: +new Date,
                             uid: resData.id,
-                            gid: resData.gid[0].group_id
+                            gid: resData.gid[0].group_id,
+                            oid: resData.gid[0].oid
                         });
                         console.log(this.tokenService.get());
                         this.router.navigate(['/']);

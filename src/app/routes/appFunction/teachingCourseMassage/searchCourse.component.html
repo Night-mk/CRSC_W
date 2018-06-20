@@ -11,9 +11,6 @@
 
     <simple-table #st [columns]="columns" [data]="courseDetailData" [loading]="loading"
                   (filterChange)="getCourseData()">
-        <!--<ng-template st-row="status" let-i>-->
-            <!--<nz-badge [nzStatus]="i.statusType" [nzText]="i.statusText"></nz-badge>-->
-        <!--</ng-template>-->
     </simple-table>
 </nz-card>
 
@@ -62,10 +59,6 @@
                                *ngFor="let data of skip.course_address"></nz-option>
                 </nz-select>
             </nz-form-control>
-            <!--<nz-form-label nzSpan="5" nzRequired nzFor="course_address">上课教室</nz-form-label>-->
-            <!--<nz-form-control nzSpan="19">-->
-                <!--<input nz-input formControlName="course_address" id="course_address">-->
-            <!--</nz-form-control>-->
         </nz-form-item>
 
         <nz-form-item>
@@ -74,4 +67,9 @@
             </nz-form-control>
         </nz-form-item>
     </form>
+</nz-modal>
+
+<!--显示二维码模态框-->
+<nz-modal [(nzVisible)]="isQRVisible" [nzFooter]="null" nzTitle="课程二维码" (nzOnCancel)="handleCancel()">
+    <img src="{{QRUrl}}"/>
 </nz-modal>

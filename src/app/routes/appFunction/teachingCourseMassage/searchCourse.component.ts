@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import {map, tap} from 'rxjs/operators';
 import {SimpleTableColumn, SimpleTableComponent} from '@delon/abc';
 import {NzNotificationService} from 'ng-zorro-antd';
 import {SkipService} from './skip.service';
@@ -16,6 +15,7 @@ export class SearchCourseComponent implements OnInit{
 
     form: FormGroup;
     isVisible = false;
+    isQRVisible = false;
     loading = false;
 
     //记录当前选择的课程id
@@ -30,8 +30,10 @@ export class SearchCourseComponent implements OnInit{
         readAddressUrl : this.urlTemplate+'TeachingPlace/read',
         searchCourseArrangementUrl: this.urlTemplate+'Instruction/read',
         deleteCourseUrl: this.urlTemplate+'Instruction/delete',
-        generateQRCodeUrl: this.urlTemplate+'QrCode/create_qrcode'
+        generateQRCodeUrl: this.urlTemplate+'QrCode/create_qrcode',
+        readTimeTableUrl: this.urlTemplate+'TimeTable/read'
     };
+    QRUrl = null;
 
     //选择信息课程列表
     selectCourseList = {
@@ -54,7 +56,7 @@ export class SearchCourseComponent implements OnInit{
             buttons: [
                 { text: '删除', click: (item: any) => this.deleteCourse(`${item.course_id}`) },
                 { text: '添加课程表', click: () => this.openAddCourseDetailModel() },
-                { text: '生成二维码', click: (item: any) => this.generateORCode(`${item.course_id}`) },
+                { text: '生成二维码', click: (item: any) => this.generateQRCode(`${item.course_id}`) },
                 { text: '课程详情', click: (item: any) =>  this.openCourseDetailPage(`${item.course_id}`) }
             ]
         }
@@ -167,7 +169,9 @@ export class SearchCourseComponent implements OnInit{
     openAddCourseDetailModel(){
         this.showModal();
         this.getCourseAddressList();
+        this.getTimeTableList();
     }
+
 
     /**
      * 添加课程表细节
@@ -191,28 +195,17 @@ export class SearchCourseComponent implements OnInit{
             this.createBasicNotification('添加课程','添加请求提交失败，请检查网络并重试');
         });
     }
+
     /**
      * 生成课程二维码
      * @param courseId
      */
-    generateORCode(courseId){
+    generateQRCode(courseId){
         let url = this.requestUrlList.generateQRCodeUrl+'/code/'+courseId;
         console.log(url);
-        this.http.get(
-            url
-        ).subscribe((data)=>{
-            console.log(data);
-            if(data['status']==0){
-                this.createBasicNotification('生成课程二维码','生成成功');
-            }else{
-                this.createBasicNotification('生成课程二维码','生成失败');
-            }
-        },response => {
-            console.log("GET call in error", response);
-            this.createBasicNotification('生成课程二维码','生成请求提交失败，请检查网络并重试');
-        });
+        this.QRUrl = url;
+        this.isQRVisible = true;
     }
-
 
 
     /**
@@ -246,6 +239,28 @@ export class SearchCourseComponent implements OnInit{
         });
     }
 
+    /**
+     * 获取授课时段信息
+     */
+    getTimeTableList(){
+        let url = this.requestUrlList.readTimeTableUrl+
+            '/gid/'+this.tokenService.get().gid+'/uid/'+this.tokenService.get().uid;
+        console.log(url);
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                //设置授课时段信息
+                this.skip.time = data['data'];
+                console.log('timeTable get ok');
+            }else{
+                console.log('timeTable get error');
+            }
+        },response => {
+            console.log("GET call in error", response);
+        });
+    }
 
     //-----------------------------------------------------------
     // 提示框服务
@@ -274,6 +289,7 @@ export class SearchCourseComponent implements OnInit{
     handleCancel(): void {
         console.log('Button cancel clicked!');
         this.isVisible = false;
+        this.isQRVisible = false;
     }
 
 }
