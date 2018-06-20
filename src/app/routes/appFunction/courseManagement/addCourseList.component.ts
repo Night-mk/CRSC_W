@@ -144,6 +144,7 @@ export class AddCourseListComponent implements OnInit {
 
                     if (data['status'] == 0) {
                         this.createBasicNotification('添加课程', '添加成功');
+                        this.route.step = 0;
                     } else {
                         console.log('add course error');
 
