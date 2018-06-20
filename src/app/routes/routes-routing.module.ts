@@ -38,7 +38,8 @@ const routes: Routes = [
             { path: 'extras', loadChildren: './extras/extras.module#ExtrasModule' },
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' },
             { path: 'appFunction', loadChildren: './appFunction/appFunction.module#AppFunctionModule'},
-            { path: 'aclManagement', loadChildren: './aclManagement/aclManagement.module#AclManagementModule'}
+            { path: 'aclManagement', loadChildren: './aclManagement/aclManagement.module#AclManagementModule'},
+            { path: 'basicManagement', loadChildren: './basicManagement/basicManagement.module#BasicManagementModule'}
         ]
     },
     // 全屏布局

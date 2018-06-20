@@ -29,14 +29,18 @@ export class SignDetailComponent{
         name: null,
         number: null,
         signon: null,
-        signout: null
+        signout: null,
+        delete: null,
+        id: null
     };
 
 
     //接口请求url
     urlTemplate = 'CRSS/index.php/';
     requestUrlList = {
-        getSignDetailUrl: this.urlTemplate+'StudentPeriod/read'
+        getSignDetailUrl: this.urlTemplate+'StudentPeriod/read',
+        deleteSignUrl: this.urlTemplate+'StudentPeriod/delete',
+
     };
 
     constructor(private http: _HttpClient,
@@ -106,6 +110,25 @@ export class SignDetailComponent{
         this.seatDetailData.signon = this.skip.signOnNumber2String(this.seatDetailData.signon);
         this.seatDetailData.signout = this.skip.signOutNumber2String(this.seatDetailData.signout);
         this.showModal();
+    }
+
+    /**
+     * 删除签到信息
+     * @param student_sign_id
+     */
+    deleteSign(student_sign_id){
+        let url = this.requestUrlList.getSignDetailUrl+'/id/'+student_sign_id;
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                console.log(data['data']);
+            }
+            this.handleCancel();
+        },response=>{
+            console.log('GET error');
+        });
     }
 
 
