@@ -5,71 +5,36 @@
         <button nz-button (click)="prev()" class="btn-box">返回上一页</button>
     </nz-row>
 
-
-    <nz-row [nzGutter]="16" class="py-lg">
-        <nz-col [nzXs]="12" [nzMd]="8">
-            <nz-card>
-                <a (click)="msg.info('弹性计算')" class="d-block text-center text-primary">
-                    <i class="anticon anticon-rocket display-1 mb-md"></i>
-                    <h2 class="mb0">弹性计算</h2>
-                </a>
-            </nz-card>
-        </nz-col>
-        <nz-col [nzXs]="12" [nzMd]="8">
-            <nz-card>
-                <a (click)="msg.info('存储与CDN')" class="d-block text-center text-red">
-                    <i class="anticon anticon-hdd display-1 mb-md"></i>
-                    <h2 class="mb0">存储与CDN</h2>
-                </a>
-            </nz-card>
-        </nz-col>
-        <nz-col [nzXs]="12" [nzMd]="8">
-            <nz-card>
-                <a (click)="msg.info('会员服务')" class="d-block text-center text-orange">
-                    <i class="anticon anticon-user display-1 mb-md"></i>
-                    <h2 class="mb0">会员服务</h2>
-                </a>
-            </nz-card>
-        </nz-col>
-        <nz-col [nzXs]="12" [nzMd]="8">
-            <nz-card>
-                <a (click)="msg.info('数据库')" class="d-block text-center text-purple">
-                    <i class="anticon anticon-database display-1 mb-md"></i>
-                    <h2 class="mb0">数据库</h2>
-                </a>
-            </nz-card>
-        </nz-col>
-        <nz-col [nzXs]="12" [nzMd]="8">
-            <nz-card>
-                <a (click)="msg.info('域名与网站')" class="d-block text-center text-cyan">
-                    <i class="anticon anticon-api display-1 mb-md"></i>
-                    <h2 class="mb0">域名与网站</h2>
-                </a>
-            </nz-card>
-        </nz-col>
-        <nz-col [nzXs]="12" [nzMd]="8">
-            <nz-card>
-                <a (click)="msg.info('网络')" class="d-block text-center text-teal">
-                    <i class="anticon anticon-global display-1 mb-md"></i>
-                    <h2 class="mb0">网络</h2>
-                </a>
-            </nz-card>
-        </nz-col>
-        <nz-col [nzXs]="12" [nzMd]="8">
-            <nz-card>
-                <a (click)="msg.info('应用服务')" class="d-block text-center text-pink">
-                    <i class="anticon anticon-appstore-o display-1 mb-md"></i>
-                    <h2 class="mb0">应用服务</h2>
-                </a>
-            </nz-card>
-        </nz-col>
-        <nz-col [nzXs]="12" [nzMd]="8">
-            <nz-card>
-                <a (click)="msg.info('开发者工具')" class="d-block text-center text-success">
-                    <i class="anticon anticon-tool display-1 mb-md"></i>
-                    <h2 class="mb0">开发者工具</h2>
-                </a>
-            </nz-card>
-        </nz-col>
-    </nz-row>
+    <div class="gutter-example">
+        <div nz-row [nzGutter]="gutter" *ngFor="let c of seatArray; let i_c = index">
+            <div nz-col class="gutter-row" [nzSpan]="24/count" *ngFor="let r_data of seatArray[i_c]; let i_r = index">
+                <div class="grid-config grid-no-selected" *ngIf="r_data.index==null">
+                    {{r_data.seat_No}}
+                </div>
+                <div class="grid-config grid-selected" *ngIf="r_data.index!=null" (click)="showSeatDetailModel(r_data.index)">
+                    {{r_data.name}}<br>
+                    {{r_data.number}}<br>
+                    {{r_data.seat_No}}
+                </div>
+            </div>
+        </div>
+    </div>
 </nz-card>
+
+<!--详细信息模态框-->
+<nz-modal [(nzVisible)]="isVisible" nzTitle="签到详情" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+    <nz-card nzType="inner" nzTitle="学生签到信息" >
+        <desc-list size="small" title="" class="mb-md">
+            <desc-list-item term="姓名">{{seatDetailData.name}}</desc-list-item>
+        </desc-list>
+        <desc-list size="small" title="" class="mb-md">
+            <desc-list-item term="学号">{{seatDetailData.number}}</desc-list-item>
+        </desc-list><desc-list size="small" title="" class="mb-md">
+            <desc-list-item term="签到情况">{{seatDetailData.signon}}</desc-list-item>
+        </desc-list><desc-list size="small" title="" class="mb-md">
+            <desc-list-item term="签退情况">{{seatDetailData.signout}}</desc-list-item>
+        </desc-list>
+        <nz-divider class="mb-md"></nz-divider>
+        <button nz-button [nzType]="'primary'" (click)="showModal()"><span>清除签到</span></button>
+    </nz-card>
+</nz-modal>

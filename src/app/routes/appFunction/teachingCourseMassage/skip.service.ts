@@ -56,8 +56,21 @@ export class SkipService {
      */
     period_id: any;
 
+    /**
+     * 课程签到详情每行状况
+     */
+    gutter: any;
+    counter: any;
+    col: any;
+    row: any;
+
 
     again() {
+        this.gutter = 8;
+        this.counter = 8;
+        this.col = 0;
+        this.row = 0;
+
         this.step = 0;
         this.term_year = [
             '2010-2011',
@@ -136,6 +149,32 @@ export class SkipService {
                 time_id: 5
             }
         ];
+    }
+
+    /**
+     * 转换签到函数
+     * @param num
+     * @returns {string}
+     */
+    signOnNumber2String(num){
+        switch (num){
+            case '1': return '准时';
+            case '2': return '迟到';
+            default : return '暂无签到信息';
+        }
+    }
+
+    /**
+     * 转换签退函数
+     * @param num
+     * @returns {string}
+     */
+    signOutNumber2String(num){
+        switch (num){
+            case '1': return '准时';
+            case '2': return '早退';
+            default : return '暂无签到信息';
+        }
     }
 
     constructor() {
