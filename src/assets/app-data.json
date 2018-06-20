@@ -21,20 +21,16 @@
         "icon": "anticon anticon-cloud-o",
         "children": [{
           "text": "作息时间",
-          "link": "/aclManagement/menu-management",
+          "link": "/basicManagement/time-table",
           "i18n": "time_table"
         },{
           "text": "组织结构",
-          "link": "/aclManagement/menu-management",
+          "link": "/basicManagement/organization",
           "i18n": "organization"
         },{
-          "text": "开学时间",
-          "link": "/aclManagement/menu-management",
-          "i18n": "term_start_time"
-        },{
-          "text": "教学地点",
-          "link": "/aclManagement/menu-management",
-          "i18n": "teaching_address"
+          "text": "签到规则",
+          "link": "/basicManagement/sign-rule",
+          "i18n": "sign_rule"
         }]
       },{
         "text": "权限管理",
