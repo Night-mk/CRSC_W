@@ -1,6 +1,3 @@
-<page-header [title]="'教师授课信息'">
-  教师查阅授课信息
-</page-header>
 <nz-card [nzBordered]="false">
   <app-course-list *ngIf="route.step==0"></app-course-list>
   <app-add-course-list *ngIf="route.step==1"></app-add-course-list>

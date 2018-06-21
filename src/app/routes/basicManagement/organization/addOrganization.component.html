@@ -1,0 +1,17 @@
+<nz-card [nzBordered]="false">
+  <form nz-form [formGroup]="form" >
+    <nz-form-item>
+      <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="school">学校</nz-form-label>
+      <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <input nz-input formControlName="school" id="school" [(ngModel)]="AddCourseList.school"  placeholder="请输入学校">
+        <nz-form-explain *ngIf="form.get('school').dirty && form.get('school').errors">请输入学校</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+        <button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="addInformation()">提交</button>
+        <button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="prev()">取消</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-card>

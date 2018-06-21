@@ -1,1 +1,5 @@
-<div>组织结构</div>
+<nz-card [nzBordered]="false">
+  <app-organization-list *ngIf="Oroute.step==0"></app-organization-list>
+  <app-add-organization *ngIf="Oroute.step==1"></app-add-organization>
+  <app-add-college *ngIf="Oroute.step==2"></app-add-college>
+</nz-card>

@@ -71,6 +71,7 @@ export class CourseListComponent implements OnInit {
                         courseName:course_detail.course_name,
                         courseID:course_detail.course_id,
                         courseTime:course_detail.period,
+                        course_id:course_detail.id,
                     };
                     this.courseDetailData.push(courseData);
                 }
