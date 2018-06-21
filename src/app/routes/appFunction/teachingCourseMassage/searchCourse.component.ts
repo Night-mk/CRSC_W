@@ -16,6 +16,7 @@ export class SearchCourseComponent implements OnInit{
     form: FormGroup;
     isVisible = false;
     isQRVisible = false;
+    isSLVisible = false;
     loading = false;
 
     //记录当前选择的课程id
@@ -31,7 +32,11 @@ export class SearchCourseComponent implements OnInit{
         searchCourseArrangementUrl: this.urlTemplate+'Instruction/read',
         deleteCourseUrl: this.urlTemplate+'Instruction/delete',
         generateQRCodeUrl: this.urlTemplate+'QrCode/create_qrcode',
-        readTimeTableUrl: this.urlTemplate+'TimeTable/read'
+        readTimeTableUrl: this.urlTemplate+'TimeTable/read',
+        addCourseDetailUrl: this.urlTemplate+'CoursePeriod/add',
+        readStudentListUrl: this.urlTemplate+'StudentList/read',
+        deleteStudentUrl: this.urlTemplate+'StudentList/delete',
+        joinBlackListUrl: this.urlTemplate+'StudentList/join_blacklist',
     };
     QRUrl = null;
 
@@ -42,6 +47,12 @@ export class SearchCourseComponent implements OnInit{
         select_week: null,
         select_time: null,
         select_course_address: null
+    };
+
+    //学生列表信息
+    studentList = {
+        name: null,
+        number: null
     };
 
     @ViewChild('st') st: SimpleTableComponent;
@@ -55,9 +66,10 @@ export class SearchCourseComponent implements OnInit{
             title: '操作',
             buttons: [
                 { text: '删除', click: (item: any) => this.deleteCourse(`${item.course_id}`) },
-                { text: '添加课程表', click: () => this.openAddCourseDetailModel() },
+                { text: '添加课程表', click: (item: any) => this.openAddCourseDetailModel(`${item.course_id}`) },
                 { text: '生成二维码', click: (item: any) => this.generateQRCode(`${item.course_id}`) },
-                { text: '课程详情', click: (item: any) =>  this.openCourseDetailPage(`${item.course_id}`) }
+                { text: '课程详情', click: (item: any) =>  this.openCourseDetailPage(`${item.course_id}`) },
+                { text: '学生列表', click: (item: any) =>  this.openStudentListModel(`${item.course_id}`) }
             ]
         }
     ];
@@ -166,33 +178,46 @@ export class SearchCourseComponent implements OnInit{
     /**
      * 打开添加课程表模态框
      */
-    openAddCourseDetailModel(){
+    openAddCourseDetailModel(courseId){
         this.showModal();
         this.getCourseAddressList();
         this.getTimeTableList();
+        this.currentCourseId = courseId;
     }
 
+    /**
+     * 打开学生列表模态框
+     */
+    openStudentListModel(courseId){
+        this.isSLVisible = true;
+        this.getStudentList(courseId);
+    }
 
     /**
      * 添加课程表细节
      * @param courseId
      */
     addCourseDetail(courseId){
-        let addCourseDetailUrl = '';
-        console.log(this.selectCourseList);
+        let url = this.requestUrlList.addCourseDetailUrl+'/begin/'+this.selectCourseList.select_start_week+
+        '/end/'+this.selectCourseList.select_end_week+'/week/'+this.selectCourseList.select_week+
+        '/uid/'+this.tokenService.get().uid+'/cid/'+courseId+'/room/'+this.selectCourseList.select_course_address+
+        '/time/'+this.selectCourseList.select_time;
+        console.log(url);
 
         //获取body数据
         this.http.get(
-            addCourseDetailUrl
+            url
         ).subscribe((data)=>{
             if(data['status']==0){
                 this.createBasicNotification('添加课程细节','添加成功');
             }else{
                 this.createBasicNotification('添加课程','添加失败');
             }
+            this.handleCancel();
         },response => {
             console.log("GET call in error", response);
             this.createBasicNotification('添加课程','添加请求提交失败，请检查网络并重试');
+            this.handleCancel();
         });
     }
 
@@ -244,7 +269,7 @@ export class SearchCourseComponent implements OnInit{
      */
     getTimeTableList(){
         let url = this.requestUrlList.readTimeTableUrl+
-            '/gid/'+this.tokenService.get().gid+'/uid/'+this.tokenService.get().uid;
+            '/oid/'+this.tokenService.get().oid;
         console.log(url);
         this.http.get(
             url
@@ -259,6 +284,82 @@ export class SearchCourseComponent implements OnInit{
             }
         },response => {
             console.log("GET call in error", response);
+        });
+    }
+
+    /**
+     * 获取学生列表信息
+     * @param courseId
+     */
+    getStudentList(courseId){
+        let url = this.requestUrlList.readStudentListUrl+
+            '/iid/'+courseId;
+        console.log(url);
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                //设置学生列表信息
+                this.studentList = data['data'];
+                console.log('studentList get ok');
+            }else{
+                console.log('studentList get error');
+            }
+        },response => {
+            console.log("GET call in error", response);
+        });
+    }
+
+    /**
+     * 从授课安排中删除学生
+     * @param student_id
+     */
+    deleteStudent(student_id){
+        let url = this.requestUrlList.deleteStudentUrl+
+            '/id/'+student_id;
+        console.log(url);
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                console.log('delete student get ok');
+                this.createBasicNotification('删除学生','删除成功!');
+            }else{
+                console.log('delete student get error');
+                this.createBasicNotification('删除学生','删除失败!');
+            }
+            this.handleCancel();
+        },response => {
+            console.log("GET call in error", response);
+            this.createBasicNotification('删除学生','删除请求提交失败，请检查网络并重试');
+        });
+    }
+
+    /**
+     * 将人员加入黑名单
+     * @param student_id
+     */
+    joinBlackList(student_id){
+        let url = this.requestUrlList.joinBlackListUrl+
+            '/id/'+student_id;
+        console.log(url);
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                console.log('join black list get ok');
+                this.createBasicNotification('加入黑名单','加入黑名单成功!');
+            }else{
+                console.log('join black list get error');
+                this.createBasicNotification('加入黑名单','加入黑名单失败!');
+            }
+            this.handleCancel();
+        },response => {
+            console.log("GET call in error", response);
+            this.createBasicNotification('加入黑名单','加入黑名单请求提交失败，请检查网络并重试');
         });
     }
 
@@ -290,6 +391,7 @@ export class SearchCourseComponent implements OnInit{
         console.log('Button cancel clicked!');
         this.isVisible = false;
         this.isQRVisible = false;
+        this.isSLVisible = false;
     }
 
 }

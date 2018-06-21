@@ -133,20 +133,20 @@ export class SkipService {
         ];
         this.time = [
             {
-                time_name: '1-2',
-                time_id: 1
+                title: '1-2',
+                id: 1
             },{
-                time_name: '3-4',
-                time_id: 2
+                title: '3-4',
+                id: 2
             },{
-                time_name: '5-6',
-                time_id: 3
+                title: '5-6',
+                id: 3
             },{
-                time_name: '7-8',
-                time_id: 4
+                title: '7-8',
+                id: 4
             },{
-                time_name: '9-10-11',
-                time_id: 5
+                title: '9-10-11',
+                id: 5
             }
         ];
     }
