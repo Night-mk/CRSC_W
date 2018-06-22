@@ -134,8 +134,9 @@ export class AddCollegeComponent {
         setTimeout(() => {
             this.loading = false;
             const college=this.AddCourseList.college;
+            this.Oroute.Olevel++;
             let url = this.requestUrlList.editCourseUrl+
-                'title/'+this.AddCourseList.college+'/level/'+this.level+'/pid/'+this.pid;
+                'title/'+this.AddCourseList.college+'/level/'+this.Oroute.Olevel+'/pid/'+this.Oroute.Opid;
             console.log(url);
             if(college=="")
             {

@@ -48,7 +48,7 @@ export class OrganizationListComponent {
             title: '操作',
             buttons: [
                 { text: '删除', click: (item: any) => this.deleteCourse(`${item.course_id}`) },
-                { text: '添加', click: (item: any) => this.addCollege(`${item.course_id}`) },
+                { text: '添加', click: (item: any) => this.addCollege(`${item.course_id}`,`${item.course_level}`) },
                 // { text: '添加', click: (item: any) => this.getCollege() },
             ]
         }
@@ -62,32 +62,28 @@ export class OrganizationListComponent {
 
     }
 
-    addCollege(courseID){
+    addCollege(courseID,courseLevel){
         this.Oroute.step=2;
         this.loading = true;
         //发起请求
-        let url = this.requestUrlList.getAllCourseUrl+'/id/'+this.tokenService.get().id;
+        let url = this.requestUrlList.editCourseUrl+'/id/'+courseID+'/level/'+courseLevel;
 
         console.log(url);
         this.http.get(
             url
         ).subscribe((data)=>{
             console.log(data);
-            if(data['status']==0){
-                this.Oroute.Opid=data.pid;
-                console.log(this.Oroute.Opid);
-                // this.courseDetailData = [];
-                // //处理相关数据
-                // for(let course_detail of data['data']){
-                //     // let term_data = '';
-                //     let courseData = {
-                //         organization_id:course_detail.title,
-                //         course_id:course_detail.id,
-                //
-                //     };
-                //     this.courseDetailData.push(courseData);
-                // }
-                // this.loading = false;
+            if(data['status']==1){
+
+                this.courseDetailData=[];
+                //处理相关数据
+                    this.Oroute.Opid=courseID;
+                    this.Oroute.Olevel=courseLevel;
+                    // this.Oroute.levle=data['data'].level;
+                    console.log(this.Oroute.Opid);
+                    console.log(this.Oroute.Olevel);
+                    // this.courseDetailData.push(courseData);
+                this.loading = false;
                 // console.log(this.courseDetailData);
             }else{
                 this.createBasicNotification('查询授课安排','查询失败');
@@ -121,6 +117,7 @@ export class OrganizationListComponent {
                     let courseData = {
                         organization_id:course_detail.title,
                         course_id:course_detail.id,
+                        course_level:course_detail.level,
 
                     };
                     this.courseDetailData.push(courseData);
