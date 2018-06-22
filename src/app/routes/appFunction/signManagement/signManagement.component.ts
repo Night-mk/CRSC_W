@@ -8,7 +8,7 @@ import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
     styleUrls: ['./signManagement.component.less']
 })
 export class SignManagementComponent {
-    
+
     hasSignData = false;
     isVisible = false;
     courseSignData: any;

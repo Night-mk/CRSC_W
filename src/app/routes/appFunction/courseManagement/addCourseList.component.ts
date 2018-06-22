@@ -15,8 +15,6 @@ import {RouteService} from './route.service';
 
 export class AddCourseListComponent implements OnInit {
     form: FormGroup;
-    submitting=false;
-    select_school: any;
     loading=false;
     isVisible = false;
     schoolList:any;
