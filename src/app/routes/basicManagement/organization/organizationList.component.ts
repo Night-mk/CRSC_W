@@ -64,53 +64,24 @@ export class OrganizationListComponent {
 
     addCollege(courseID,courseLevel){
         this.Oroute.step=2;
-        this.loading = true;
-        //发起请求
-        let url = this.requestUrlList.editCourseUrl+'/id/'+courseID+'/level/'+courseLevel;
-
+        this.loading=true;
+        let url=this.requestUrlList.editCourseUrl+'/id/'+courseID+'/level'+courseLevel;
         console.log(url);
         this.http.get(
             url
         ).subscribe((data)=>{
             console.log(data);
-<<<<<<< HEAD
             if(data['status']==1){
-
-                this.courseDetailData=[];
-                //处理相关数据
-                    this.Oroute.Opid=courseID;
-                    this.Oroute.Olevel=courseLevel;
-                    // this.Oroute.levle=data['data'].level;
-                    console.log(this.Oroute.Opid);
-                    console.log(this.Oroute.Olevel);
-                    // this.courseDetailData.push(courseData);
-                this.loading = false;
-=======
-            if(data['status']==0){
-                // this.Oroute.Opid=data.pid;
-                console.log(this.Oroute.Opid);
-                // this.courseDetailData = [];
-                // //处理相关数据
-                // for(let course_detail of data['data']){
-                //     // let term_data = '';
-                //     let courseData = {
-                //         organization_id:course_detail.title,
-                //         course_id:course_detail.id,
-                //
-                //     };
-                //     this.courseDetailData.push(courseData);
-                // }
-                // this.loading = false;
->>>>>>> 6229085f1131f493feac2954fcdfbcc69bc168f6
-                // console.log(this.courseDetailData);
+                this.Oroute.Opid=courseID;
+                this.Oroute.Olevel=courseLevel;
+                this.loading=false;
             }else{
                 this.createBasicNotification('查询授课安排','查询失败');
             }
-            this.loading = false;
+            this.loading=false;
         },response=>{
-            console.log("POST call in error", response);
+            console.log("POST call in error",response);
         });
-
     }
 
     getCollege(){
