@@ -123,7 +123,7 @@ export class AddOrganizationComponent {
         this.loading = true;
         setTimeout(() => {
             this.loading = false;
-
+            // this.pid=this.Oroute.Opid;
             const school=this.AddCourseList.school;
             const college=this.AddCourseList.college;
             const profession=this.AddCourseList.profession;

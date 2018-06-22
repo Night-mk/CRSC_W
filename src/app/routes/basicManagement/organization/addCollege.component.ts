@@ -76,58 +76,58 @@ export class AddCollegeComponent {
         this.isVisible = false;
     }
 
-    getInformation() {
-        this.loading = true;
-        //发起请求
-        let url = this.requestUrlList.getAllCourseUrl+'/uid/'+this.tokenService.get().uid+'/gid/'+this.tokenService.get().gid;
+    // getInformation() {
+    //     this.loading = true;
+    //     //发起请求
+    //     let url = this.requestUrlList.getAllCourseUrl+'/uid/'+this.tokenService.get().uid+'/gid/'+this.tokenService.get().gid;
+    //
+    //     console.log(url);
+    //     this.http.get(
+    //         url
+    //     ).subscribe((data)=>{
+    //         console.log(data);
+    //         if(data['status']==0){
+    //             // this.courseDetailData = [];
+    //             // //处理相关数据
+    //             // for(let course_detail of data['data']){
+    //             //     // let term_data = '';
+    //             //     let courseData = {
+    //                     course_id:data.id;
+    //             //     };
+    //                 this.search({course_id:data.id});
+    //             //     // this.courseDetailData.push(courseData);
+    //             // }
+    //             // this.loading = false;
+    //             // // console.log(this.courseDetailData);
+    //         }else{
+    //             this.createBasicNotification('查询授课安排','查询失败');
+    //         }
+    //         this.loading = false;
+    //     },response=>{
+    //         console.log("POST call in error", response);
+    //     });
+    //
+    // }
 
-        console.log(url);
-        this.http.get(
-            url
-        ).subscribe((data)=>{
-            console.log(data);
-            if(data['status']==0){
-                // this.courseDetailData = [];
-                // //处理相关数据
-                // for(let course_detail of data['data']){
-                //     // let term_data = '';
-                //     let courseData = {
-                        course_id:data.id;
-                //     };
-                    this.search({course_id:data.id});
-                //     // this.courseDetailData.push(courseData);
-                // }
-                // this.loading = false;
-                // // console.log(this.courseDetailData);
-            }else{
-                this.createBasicNotification('查询授课安排','查询失败');
-            }
-            this.loading = false;
-        },response=>{
-            console.log("POST call in error", response);
-        });
-
-    }
-
-    search(courseID){
-        this.loading = true;
-        //发起请求
-        let url = this.requestUrlList.getAllCourseUrl+'/id/'+courseID;
-
-        console.log(url);
-        this.http.get(
-            url
-        ).subscribe((data)=>{
-            console.log(data);
-            this.level =data.level++;
-            this.pid =data.id;
-            console.log(this.level);
-            console.log(this.pid);
-            this.loading = false;
-        },response=>{
-            console.log("POST call in error", response);
-        });
-    }
+    // search(courseID){
+    //     this.loading = true;
+    //     //发起请求
+    //     let url = this.requestUrlList.getAllCourseUrl+'/id/'+courseID;
+    //
+    //     console.log(url);
+    //     this.http.get(
+    //         url
+    //     ).subscribe((data)=>{
+    //         console.log(data);
+    //         this.level =data.level++;
+    //         this.pid =data.id;
+    //         console.log(this.level);
+    //         console.log(this.pid);
+    //         this.loading = false;
+    //     },response=>{
+    //         console.log("POST call in error", response);
+    //     });
+    // }
 
     addCollege(){
         this.loading = true;
@@ -166,6 +166,6 @@ export class AddCollegeComponent {
     }
 
     prev(){
-        this.Oroute.step=0;
+        this.Oroute.step--;
     }
 }

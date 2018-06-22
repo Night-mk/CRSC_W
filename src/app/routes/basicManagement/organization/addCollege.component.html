@@ -3,7 +3,7 @@
     <nz-form-item>
       <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="college">请输入</nz-form-label>
       <nz-form-control nzXs="24" nzSm="12" nzMd="10">
-        <input nz-input formControlName="college" id="college" [(ngModel)]="AddCourseList.college" (click)="getInformation()"  placeholder="请输入">
+        <input nz-input formControlName="college" id="college" [(ngModel)]="AddCourseList.college"   placeholder="请输入">
         <nz-form-explain *ngIf="form.get('college').dirty && form.get('college').errors">请输入</nz-form-explain>
       </nz-form-control>
     </nz-form-item>

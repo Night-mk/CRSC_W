@@ -5,6 +5,8 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { NzNotificationService } from 'ng-zorro-antd';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
 import {OrganizationRouteService} from "./organizationRoute.service";
+import {SimpleTableComponent} from "../../delon/simple-table/simple-table.component";
+import {SimpleTableColumn} from "@delon/abc";
 
 @Component({
     selector: 'app-organization-list',
@@ -38,6 +40,7 @@ export class OrganizationListComponent {
         profession: null,
         chooseLevel:null,
     };
+    @ViewChild('st') st: SimpleTableComponent;
     columns: SimpleTableColumn[] = [
         { title: '', index: 'key', type: 'checkbox' },
         { title: '学校/学院/专业', index: 'organization_id' },
@@ -46,6 +49,7 @@ export class OrganizationListComponent {
             buttons: [
                 { text: '删除', click: (item: any) => this.deleteCourse(`${item.course_id}`) },
                 { text: '添加', click: (item: any) => this.addCollege(`${item.course_id}`) },
+                // { text: '添加', click: (item: any) => this.getCollege() },
             ]
         }
     ];
@@ -62,10 +66,41 @@ export class OrganizationListComponent {
         this.Oroute.step=2;
         this.loading = true;
         //发起请求
-        let url = this.requestUrlList.getAllCourseUrl+'/id/'+courseID;
+        let url = this.requestUrlList.getAllCourseUrl+'/id/'+this.tokenService.get().id;
 
         console.log(url);
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                this.Oroute.Opid=data.pid;
+                console.log(this.Oroute.Opid);
+                // this.courseDetailData = [];
+                // //处理相关数据
+                // for(let course_detail of data['data']){
+                //     // let term_data = '';
+                //     let courseData = {
+                //         organization_id:course_detail.title,
+                //         course_id:course_detail.id,
+                //
+                //     };
+                //     this.courseDetailData.push(courseData);
+                // }
+                // this.loading = false;
+                // console.log(this.courseDetailData);
+            }else{
+                this.createBasicNotification('查询授课安排','查询失败');
+            }
+            this.loading = false;
+        },response=>{
+            console.log("POST call in error", response);
+        });
 
+    }
+
+    getCollege(){
+        this.Oroute.step=2;
     }
 
     getSchoolData() {

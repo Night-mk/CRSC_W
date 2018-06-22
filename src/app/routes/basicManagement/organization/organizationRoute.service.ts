@@ -8,7 +8,10 @@ export class OrganizationRouteService {
      * @type {number}
      */
     step: 0 | 1 | 2  = 0;
+    //
+    Olevel:any;
 
+    Opid:any;
 
 
     constructor() {
