@@ -1,1 +1,30 @@
-<div>签到规则</div>
+<nz-card [nzBordered]="false">
+  <form nz-form [formGroup]="form" >
+    <nz-form-item>
+      <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="signOnTime">签到误差时间</nz-form-label>
+      <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <input nz-input formControlName="signOnTime" id="signOnTime" [(ngModel)]="AddCourseList.signOnTime" (click)="getSignRule()" placeholder="请输入签到误差时间">
+        <nz-form-explain *ngIf="form.get('signOnTime').dirty && form.get('signOnTime').errors">请输入签到误差时间</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="signOutTime">签退误差时间</nz-form-label>
+      <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <input nz-input formControlName="signOutTime" id="signOutTime" [(ngModel)]="AddCourseList.signOutTime" placeholder="请输入签退误差时间">
+        <nz-form-explain *ngIf="form.get('signOutTime').dirty && form.get('signOutTime').errors">请输入签退误差时间</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="distance">签到误差距离</nz-form-label>
+      <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <input nz-input formControlName="distance" id="distance" [(ngModel)]="AddCourseList.distance" placeholder="请输入签到误差距离">
+        <nz-form-explain *ngIf="form.get('distance').dirty && form.get('distance').errors">请输入签到误差距离</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+        <button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="addSignRule()">提交</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-card>
