@@ -20,13 +20,15 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
+import {WelcomeComponent} from './welcome/welcome.component';
 
 const routes: Routes = [
     {
         path: '',
         component: LayoutDefaultComponent,
         children: [
-            { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
+            { path: '', redirectTo: 'welcome/welcome-page', pathMatch: 'full' },
+            { path: 'welcome/welcome-page', component: WelcomeComponent },
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard/v1', component: DashboardV1Component },
             { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
@@ -39,7 +41,8 @@ const routes: Routes = [
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' },
             { path: 'appFunction', loadChildren: './appFunction/appFunction.module#AppFunctionModule'},
             { path: 'aclManagement', loadChildren: './aclManagement/aclManagement.module#AclManagementModule'},
-            { path: 'basicManagement', loadChildren: './basicManagement/basicManagement.module#BasicManagementModule'}
+            { path: 'basicManagement', loadChildren: './basicManagement/basicManagement.module#BasicManagementModule'},
+            { path: 'welcome', loadChildren: './welcome/welcome.module#WelcomeModule'}
         ]
     },
     // 全屏布局
