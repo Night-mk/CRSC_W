@@ -74,7 +74,7 @@ export class OrganizationListComponent {
         ).subscribe((data)=>{
             console.log(data);
             if(data['status']==0){
-                this.Oroute.Opid=data.pid;
+                // this.Oroute.Opid=data.pid;
                 console.log(this.Oroute.Opid);
                 // this.courseDetailData = [];
                 // //处理相关数据
