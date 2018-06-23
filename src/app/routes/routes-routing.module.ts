@@ -24,7 +24,7 @@ import {WelcomeComponent} from './welcome/welcome.component';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'main',
         component: LayoutDefaultComponent,
         children: [
             { path: '', redirectTo: 'welcome/welcome-page', pathMatch: 'full' },
@@ -51,6 +51,13 @@ const routes: Routes = [
         component: LayoutFullScreenComponent,
         children: [
             { path: '', loadChildren: './data-v/data-v.module#DataVModule' }
+        ]
+    },
+    {
+        path: '',
+        component: LayoutPassportComponent,
+        children: [
+            { path: '', redirectTo: '/passport/login', pathMatch: 'full' },
         ]
     },
     // passport

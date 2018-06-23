@@ -142,7 +142,7 @@ export class UserLoginComponent implements OnDestroy {
                             school: resData.gid[0].oname
                         });
                         console.log(this.tokenService.get());
-                        this.router.navigate(['/']);
+                        this.router.navigate(['main/']);
                     }
                 },
                 response => {

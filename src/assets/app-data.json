@@ -15,7 +15,7 @@
       "i18n": "welcome_page",
       "children": [{
         "text": "欢迎页",
-        "link": "/welcome/welcome-page",
+        "link": "/main/welcome/welcome-page",
         "i18n": "welcome_page"
       }]
     },
@@ -30,15 +30,15 @@
         "icon": "anticon anticon-cloud-o",
         "children": [{
           "text": "作息时间",
-          "link": "/basicManagement/time-table",
+          "link": "/main/basicManagement/time-table",
           "i18n": "time_table"
         },{
           "text": "组织结构",
-          "link": "/basicManagement/organization",
+          "link": "/main/basicManagement/organization",
           "i18n": "organization"
         },{
           "text": "签到规则",
-          "link": "/basicManagement/sign-rule",
+          "link": "/main/basicManagement/sign-rule",
           "i18n": "sign_rule"
         }]
       },{
@@ -47,15 +47,15 @@
         "icon": "icon-user",
         "children": [{
           "text": "菜单管理",
-          "link": "/aclManagement/menu-management",
+          "link": "/main/aclManagement/menu-management",
           "i18n": "menu_management"
         },{
           "text": "角色管理",
-          "link": "/aclManagement/role-management",
+          "link": "/main/aclManagement/role-management",
           "i18n": "role_management"
         },{
           "text": "用户管理",
-          "link": "/aclManagement/user-management",
+          "link": "/main/aclManagement/user-management",
           "i18n": "user_management"
         }]
       },{
@@ -64,15 +64,15 @@
         "icon": "icon-grid",
         "children": [{
           "text": "课程管理",
-          "link": "/appFunction/course-management",
+          "link": "/main/appFunction/course-management",
           "i18n": "course_management"
         },{
           "text": "考勤统计",
-          "link": "/appFunction/sign-management",
+          "link": "/main/appFunction/sign-management",
           "i18n": "sign_management"
         },{
           "text": "教师授课信息",
-          "link": "/appFunction/teaching-course-massage",
+          "link": "/main/appFunction/teaching-course-massage",
           "i18n": "teaching_course_massage"
         }]
       }]
