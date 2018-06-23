@@ -33,7 +33,7 @@ export class UserLoginComponent implements OnDestroy {
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
         private startupSrv: StartupService,
-        private http: HttpClient
+        private http: _HttpClient
     ) {
         this.form = fb.group({
             userName: [null, [Validators.required, Validators.minLength(5)]],
@@ -72,6 +72,11 @@ export class UserLoginComponent implements OnDestroy {
         }, 1000);
     }
 
+    getRandom(num):string{
+        let random = Math.floor((Math.random()+Math.floor(Math.random()*9+1))*Math.pow(10,num-1));
+        return random.toString();
+    }
+
     // endregion
 
     submit() {
@@ -95,31 +100,12 @@ export class UserLoginComponent implements OnDestroy {
             this.loading = false;
             // 清空路由复用信息
             this.reuseTabService.clear();
-
-
             // 重新获取 StartupService 内容，若其包括 User 有关的信息的话
             // this.startupSrv.load().then(() => this.router.navigate(['/']));
             // 否则直接跳转
             let passwdMd5 = Md5.hashStr(this.password.value);
             let loginUrl = '/CRSS/index.php/Login/login/type/1/name/'+this.userName.value+'/pwd/'+passwdMd5;
-            // let loginUrl = '/CRSS/index.php/Login/login';
-            // let loginUrl = 'CRSS/index.php/Admin/Login/checkLoginClient/';
             console.log(loginUrl+" "+this.userName.value+" "+passwdMd5 );
-            // const headers = new HttpHeaders(
-            //     {
-            //                 "Content-Type" : "application/x-www-form-urlencoded;",
-            //                 "Accept" : "application/json"
-            //             }
-            //     );
-            // let payload = {
-            //     type: '1',
-            //     name: this.userName.value,
-            //     pwd: passwdMd5
-            // };
-            // const body = new HttpParams().set('type','1');
-            // body.set('type','1');
-            // body.set('name', this.userName.value);
-            // body.set('pwd', passwdMd5.toString());
 
             //get登陆请求
             this.http.get(
@@ -129,20 +115,32 @@ export class UserLoginComponent implements OnDestroy {
                     if(data['status'] == 0){
                         console.log('go to login page POST');
                         let resData = data['data'];
-                        // 设置Token信息
-                        this.tokenService.set({
-                            token: '123456789',
-                            name: this.userName.value,
-                            email: `1561495202@qq.com`,
-                            id: 10000,
-                            time: +new Date,
-                            uid: resData.id,
-                            gid: resData.gid[0].group_id,
-                            oid: resData.gid[0].oid,
-                            school: resData.gid[0].oname
-                        });
-                        console.log(this.tokenService.get());
-                        this.router.navigate(['main/']);
+                        //若没有gid信息，跳转填写相信信息页面
+                        let tokenNumber = this.getRandom(9);
+                        console.log(resData.gid);
+                        if(resData.gid.length==0 || resData.gid==undefined){
+                            console.log('test1');
+                            this.tokenService.set({
+                                token: tokenNumber,
+                                time: +new Date,
+                                uid: resData.id
+                            });
+                            this.router.navigate(['passport/userInfo']);
+                        }else{
+                            // 设置Token信息
+                            this.tokenService.set({
+                                token: tokenNumber,
+                                name: this.userName.value,
+                                email: this.userName.value,
+                                time: +new Date,
+                                uid: resData.id,
+                                gid: resData.gid[0].group_id,
+                                oid: resData.gid[0].oid,
+                                school: resData.gid[0].oname
+                            });
+                            console.log(this.tokenService.get());
+                            this.router.navigate(['main/']);
+                        }
                     }
                 },
                 response => {

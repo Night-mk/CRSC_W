@@ -1,0 +1,59 @@
+<h3>用户信息完善</h3>
+<form nz-form [formGroup]="form" role="form">
+    <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+    <nz-form-item>
+        <nz-form-label nzSpan="6" nzRequired style="text-align: left">真实姓名</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+            <nz-input-group nzAddonBeforeIcon="anticon anticon-user">
+                <input nz-input formControlName="name" placeholder="真实姓名">
+            </nz-input-group>
+            <!--<ng-container *ngIf="mail.dirty && mail.errors">-->
+                <!--<nz-form-explain *ngIf="mail.errors?.required">请输入邮箱地址！</nz-form-explain>-->
+                <!--<nz-form-explain *ngIf="mail.errors?.email">邮箱地址格式错误！</nz-form-explain>-->
+            <!--</ng-container>-->
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzSpan="6" nzRequired style="text-align: left">学号、工号</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+            <nz-input-group nzAddonBeforeIcon="anticon anticon-user">
+                <input nz-input formControlName="number" placeholder="学号、工号">
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzSpan="6" nzRequired style="text-align: left">人员身份</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+            <nz-select formControlName="gid" [(ngModel)]="userInfoData.gid">
+                <!--[nzLabel]表示显示的内容，[nzValue]表示获取的内容-->
+                <nz-option [nzLabel]="data.name"
+                           [nzValue]="data.gid"
+                           *ngFor="let data of group_id"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzSpan="6" nzRequired style="text-align: left">学校</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+            <nz-select formControlName="oid" [(ngModel)]="userInfoData.oid">
+                <!--[nzLabel]表示显示的内容，[nzValue]表示获取的内容-->
+                <nz-option [nzLabel]="data.title"
+                           [nzValue]="data.oid"
+                           *ngFor="let data of organizationData"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzSpan="6" style="text-align: left">手机号</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+            <nz-input-group nzAddonBeforeIcon="anticon anticon-user">
+                <input nz-input formControlName="phone" placeholder="手机号">
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <button nz-button nzType="primary" nzSize="large" [nzLoading]="loading" class="submit" (click)="editUserInfo()">
+            <span>提交详细信息</span>
+        </button>
+    </nz-form-item>
+</form>

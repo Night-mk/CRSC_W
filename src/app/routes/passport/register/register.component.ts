@@ -1,8 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import {Component, Inject, OnDestroy} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
+import {NzMessageService, NzNotificationService} from 'ng-zorro-antd';
 import {_HttpClient} from '@delon/theme';
+import {Md5} from 'ts-md5';
+import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
 
 @Component({
     selector: 'passport-register',
@@ -24,10 +26,19 @@ export class UserRegisterComponent implements OnDestroy {
         pool: 'exception'
     };
 
-    //接口链接
-    captchaUrl = "CRSS/index.php/Register/send_mail";
+    //接口请求url
+    urlTemplate = 'CRSS/index.php/';
+    requestUrlList = {
+        getCaptchaUrl : this.urlTemplate+'Register/send_mail',
+        registerUrl : this.urlTemplate+'Register/register'
+    };
 
-    constructor(fb: FormBuilder, private router: Router, public msg: NzMessageService, public http: _HttpClient) {
+    constructor(fb: FormBuilder,
+                private router: Router,
+                public msg: NzMessageService,
+                public http: _HttpClient,
+                private notification: NzNotificationService,
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
         this.form = fb.group({
             mail: [null, [Validators.email]],
             password: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.checkPassword.bind(this)]],
@@ -79,18 +90,27 @@ export class UserRegisterComponent implements OnDestroy {
      * 获取邮箱验证码
      */
     getCaptcha() {
+        this.tokenService.set({
+            token: ''
+        });
         //发送邮箱验证码
         let email = this.mail.value;
-        let captchaUrl = this.captchaUrl+'/'+email;
+        let url = this.requestUrlList.getCaptchaUrl+'/name/'+email.slice(0,-7);
+        console.log(url);
         this.http.get(
-            captchaUrl
+            url
         ).subscribe((data)=>{
+            console.log(data);
             if(data['status']==0){
                 //显示发送成功
+                this.createBasicNotification('发送验证码','验证码发送成功！');
                 console.log("send success");
+            }else{
+                this.createBasicNotification('发送验证码','验证码发送失败！'+data['msg']);
             }
         }, response => {
             console.log("GET call in error", response);
+            this.createBasicNotification('发送验证码','发送请求提交失败，请检查网络并重试');
         });
 
         this.count = 59;
@@ -103,22 +123,52 @@ export class UserRegisterComponent implements OnDestroy {
 
     // endregion
 
+    /**
+     * 注册
+     */
     submit() {
         this.error = '';
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
             this.form.controls[i].updateValueAndValidity();
         }
-        if (this.form.invalid) return;
+        //if (this.form.invalid) return;
         // mock http
         this.loading = true;
-        setTimeout(() => {
-            this.loading = false;
-            this.router.navigate(['/passport/register-result']);
-        }, 1000);
+        let passwdMd5 = Md5.hashStr(this.password.value);
+        let url = this.requestUrlList.registerUrl+'/name/'+this.mail.value.slice(0,-7)
+                    +'/pwd/'+passwdMd5+'/captcha/'+this.captcha.value;
+        console.log(url);
+        this.http.get(
+            url
+        ).subscribe((data)=>{
+            console.log(data);
+            if(data['status']==0){
+                //显示发送成功
+                this.createBasicNotification('注册','注册成功！');
+                console.log("send success");
+            }else{
+                this.createBasicNotification('注册','注册失败！'+data['msg']);
+                this.router.navigate(['/passport/register']);
+            }
+        }, response => {
+            console.log("GET call in error", response);
+            this.createBasicNotification('注册','注册请求提交失败，请检查网络并重试');
+        });
+        this.loading = false;
+        this.router.navigate(['/passport/login']);
     }
 
     ngOnDestroy(): void {
         if (this.interval$) clearInterval(this.interval$);
+    }
+
+    /**
+     * 简单提示框
+     * @param title
+     * @param content
+     */
+    createBasicNotification(title, content): void {
+        this.notification.blank( title, content);
     }
 }

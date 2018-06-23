@@ -4,7 +4,7 @@
   <nz-form-item>
     <nz-form-control>
       <nz-input-group nzSize="large" nzAddonBeforeIcon="anticon anticon-user">
-        <input nz-input formControlName="mail" placeholder="邮箱">
+        <input nz-input formControlName="mail" placeholder="邮箱,请使用QQ邮箱，其他邮箱暂不支持">
       </nz-input-group>
       <ng-container *ngIf="mail.dirty && mail.errors">
         <nz-form-explain *ngIf="mail.errors?.required">请输入邮箱地址！</nz-form-explain>

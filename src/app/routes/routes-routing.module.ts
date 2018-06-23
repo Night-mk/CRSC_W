@@ -21,6 +21,8 @@ import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 import {WelcomeComponent} from './welcome/welcome.component';
+import {UserInfoComponent} from './passport/userInfo/userInfo.component';
+import {ForgetPasswordComponent} from './passport/forgetPassword/forgetPassword.component';
 
 const routes: Routes = [
     {
@@ -67,7 +69,9 @@ const routes: Routes = [
         children: [
             { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
             { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
-            { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } }
+            { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } },
+            { path: 'userInfo', component: UserInfoComponent },
+            { path: 'forget-password', component: ForgetPasswordComponent }
         ]
     },
     // 单页不包裹Layout

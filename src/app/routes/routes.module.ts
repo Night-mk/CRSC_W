@@ -18,6 +18,8 @@ import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 import {WelcomeComponent} from './welcome/welcome.component';
+import {UserInfoComponent} from './passport/userInfo/userInfo.component';
+import {ForgetPasswordComponent} from './passport/forgetPassword/forgetPassword.component';
 
 @NgModule({
     imports: [ SharedModule, RouteRoutingModule ],
@@ -31,6 +33,8 @@ import {WelcomeComponent} from './welcome/welcome.component';
         UserLoginComponent,
         UserRegisterComponent,
         UserRegisterResultComponent,
+        UserInfoComponent,
+        ForgetPasswordComponent,
         // single pages
         UserLockComponent,
         CallbackComponent,
