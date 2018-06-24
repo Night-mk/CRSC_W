@@ -127,7 +127,7 @@ export class SkipService {
                 week_id: 1
             },
             {
-                week_name:'星期七',
+                week_name:'星期天',
                 week_id: 1
             }
         ];

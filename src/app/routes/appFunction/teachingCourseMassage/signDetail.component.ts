@@ -3,7 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import { SkipService } from './skip.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SimpleTableColumn, SimpleTableComponent} from '@delon/abc';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzMessageService, NzNotificationService} from 'ng-zorro-antd';
 import {RouterService} from '../../router.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class SignDetailComponent{
         number: null,
         signon: null,
         signout: null,
-        delete: null,
+        is_delete: null,
         id: null
     };
 
@@ -41,13 +41,13 @@ export class SignDetailComponent{
     requestUrlList = {
         getSignDetailUrl: this.urlTemplate+'StudentPeriod/read',
         deleteSignUrl: this.urlTemplate+'StudentPeriod/delete',
-
     };
 
     constructor(private http: _HttpClient,
                 public skip: SkipService,
                 public msg: NzMessageService,
-                private rootRouter: RouterService) {
+                private rootRouter: RouterService,
+                private notification: NzNotificationService) {
         this.gutter = this.skip.gutter;
         this.count = this.skip.counter;
         this.col = parseInt(this.skip.col);
@@ -119,17 +119,21 @@ export class SignDetailComponent{
      * @param student_sign_id
      */
     deleteSign(student_sign_id){
-        let url = this.requestUrlList.getSignDetailUrl+'/id/'+student_sign_id;
+        let url = this.requestUrlList.deleteSignUrl+'/id/'+student_sign_id;
+        console.log(url);
         this.http.get(
             url
         ).subscribe((data)=>{
             console.log(data);
             if(data['status']==0){
-                console.log(data['data']);
+                this.createBasicNotification('删除',data['msg']);
+            }else{
+                this.createBasicNotification('删除',data['msg']);
             }
             this.handleCancel();
         },response=>{
             console.log('GET error');
+            this.createBasicNotification('删除失败','请检查网络');
         });
     }
 
@@ -157,5 +161,14 @@ export class SignDetailComponent{
     handleCancel(): void {
         console.log('Button cancel clicked!');
         this.isVisible = false;
+    }
+
+    /**
+     * 简单提示框
+     * @param title
+     * @param content
+     */
+    createBasicNotification(title, content): void {
+        this.notification.blank( title, content);
     }
 }

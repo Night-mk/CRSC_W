@@ -35,6 +35,6 @@
             <desc-list-item term="签退情况">{{seatDetailData.signout}}</desc-list-item>
         </desc-list>
         <nz-divider class="mb-md"></nz-divider>
-        <button nz-button [nzType]="'primary'" (click)="deleteSign(seatDetailData.id)" *ngIf="seatDetailData.delete"><span>清除签到</span></button>
+        <button nz-button [nzType]="'primary'" (click)="deleteSign(seatDetailData.id)" *ngIf="seatDetailData.is_delete"><span>清除签到</span></button>
     </nz-card>
 </nz-modal>

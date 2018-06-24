@@ -92,13 +92,13 @@ export class CourseDetailComponent{
      */
     changeWeek2String(weekNum){
         switch (weekNum){
-            case 1: return this.skip.week[0].week_name;
-            case 2: return this.skip.week[1].week_name;
-            case 3: return this.skip.week[2].week_name;
-            case 4: return this.skip.week[3].week_name;
-            case 5: return this.skip.week[4].week_name;
-            case 6: return this.skip.week[5].week_name;
-            case 7: return this.skip.week[6].week_name;
+            case '1': return this.skip.week[0].week_name;
+            case '2': return this.skip.week[1].week_name;
+            case '3': return this.skip.week[2].week_name;
+            case '4': return this.skip.week[3].week_name;
+            case '5': return this.skip.week[4].week_name;
+            case '6': return this.skip.week[5].week_name;
+            case '7': return this.skip.week[6].week_name;
             default: return this.skip.week[0].week_name;
         }
 

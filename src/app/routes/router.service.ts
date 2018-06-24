@@ -8,6 +8,7 @@ export class RouterService {
      * @type {string}
      */
     // rootRouter = 'http://cattermu.top/';
+    //ng build --base-href ./
     rootRouter = '';
 
 
