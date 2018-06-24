@@ -11,7 +11,6 @@ export class RouterService {
     //ng build --base-href ./
     rootRouter = '';
 
-
     constructor() {
     }
 }

@@ -107,6 +107,7 @@ export class SignDetailComponent{
      * @param seat_index
      */
     showSeatDetailModel(seat_index){
+        console.log(this.allSeatData);
         this.seatDetailData = this.allSeatData[seat_index];
         console.log(this.seatDetailData);
         this.seatDetailData.signon = this.skip.signOnNumber2String(this.seatDetailData.signon);
