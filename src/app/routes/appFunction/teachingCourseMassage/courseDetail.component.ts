@@ -4,6 +4,7 @@ import { SkipService } from './skip.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SimpleTableColumn, SimpleTableComponent} from '@delon/abc';
 import {NzNotificationService} from 'ng-zorro-antd';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-course-detail',
@@ -17,7 +18,7 @@ export class CourseDetailComponent{
     courseTableData: any[] = [];
 
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getCourseTableDataUrl: this.urlTemplate+'CoursePeriod/read',
         getSignDataUrl: this.urlTemplate+'CoursePeriod/read',
@@ -42,7 +43,8 @@ export class CourseDetailComponent{
 
     constructor(private http: _HttpClient,
                 public skip: SkipService,
-                private notification: NzNotificationService) {
+                private notification: NzNotificationService,
+                private rootRouter: RouterService) {
         //预获取课程表数据
         this.getCourseTableData();
     }

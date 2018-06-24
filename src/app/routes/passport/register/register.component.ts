@@ -5,11 +5,13 @@ import {NzMessageService, NzNotificationService} from 'ng-zorro-antd';
 import {_HttpClient} from '@delon/theme';
 import {Md5} from 'ts-md5';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'passport-register',
     templateUrl: './register.component.html',
-    styleUrls: [ './register.component.less' ]
+    styleUrls: [ './register.component.less' ],
+    providers: [RouterService]
 })
 export class UserRegisterComponent implements OnDestroy {
 
@@ -27,7 +29,7 @@ export class UserRegisterComponent implements OnDestroy {
     };
 
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getCaptchaUrl : this.urlTemplate+'Register/send_mail',
         registerUrl : this.urlTemplate+'Register/register'
@@ -38,7 +40,8 @@ export class UserRegisterComponent implements OnDestroy {
                 public msg: NzMessageService,
                 public http: _HttpClient,
                 private notification: NzNotificationService,
-                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+                private rootRouter: RouterService) {
         this.form = fb.group({
             mail: [null, [Validators.email]],
             password: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.checkPassword.bind(this)]],

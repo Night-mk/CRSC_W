@@ -1,11 +1,13 @@
 import {Component, Inject} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-sign-management',
     templateUrl: './signManagement.component.html',
-    styleUrls: ['./signManagement.component.less']
+    styleUrls: ['./signManagement.component.less'],
+    providers: [RouterService]
 })
 export class SignManagementComponent {
 
@@ -15,14 +17,15 @@ export class SignManagementComponent {
     detailsDataSet: any;
 
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         readCourseUrl : this.urlTemplate+'Statistics/read',
         getSignDetailUrl: this.urlTemplate+'Statistics/getuser'
     };
 
     constructor(private http: _HttpClient,
-                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+                private rootRouter: RouterService) {
         //查询教师授课信息
         this.courseSignData = [{},{}];
 

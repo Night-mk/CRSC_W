@@ -5,11 +5,13 @@ import {NzMessageService, NzNotificationService} from 'ng-zorro-antd';
 import {_HttpClient} from '@delon/theme';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
 import {forEach} from '@angular/router/src/utils/collection';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'passport-userInfo',
     templateUrl: './userInfo.component.html',
-    styleUrls: [ '../register/register.component.less' ]
+    styleUrls: [ '../register/register.component.less' ],
+    providers: [RouterService]
 })
 export class UserInfoComponent {
 
@@ -18,7 +20,7 @@ export class UserInfoComponent {
     error = '';
 
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getOrganizationUrl : this.urlTemplate+'Organization/read',
         editUserInfoUrl : this.urlTemplate+'UserInfo/edit'
@@ -50,7 +52,8 @@ export class UserInfoComponent {
                 public msg: NzMessageService,
                 public http: _HttpClient,
                 private notification: NzNotificationService,
-                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+                private rootRouter: RouterService) {
         this.form = fb.group({
             name: [null, Validators.compose([Validators.required])],
             number: [null, Validators.compose([Validators.required])],

@@ -1,12 +1,8 @@
 {
-  "name": "ng-alain",
+  "name": "CRSC_D",
   "version": "1.0.0-beta.8",
   "description": "ng-zorro-antd admin panel front-end framework",
-  "author": "cipchk",
-  "homepage": "https://cipchk.github.io/ng-alain/",
-  "bugs": {
-    "url": "https://github.com/cipchk/ng-alain/issues"
-  },
+  "author": "catterMu",
   "engines": {
     "node": ">= 6.9.0",
     "npm": ">= 3.0.0"
@@ -38,9 +34,6 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
-    "@antv/data-set": "^0.8.3",
-    "@antv/g2": "^3.0.1",
-    "@antv/g2-plugin-slider": "^2.0.0",
     "@delon/abc": "^1.0.0-beta.8",
     "@delon/acl": "^1.0.0-beta.8",
     "@delon/auth": "^1.0.0-beta.8",

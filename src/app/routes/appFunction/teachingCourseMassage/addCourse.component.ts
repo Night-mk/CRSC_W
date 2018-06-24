@@ -4,6 +4,7 @@ import { SkipService } from './skip.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
 import {NzNotificationService} from 'ng-zorro-antd';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-add-course',
@@ -18,7 +19,7 @@ export class AddCourseComponent implements OnInit{
 
 
     //接口链接
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getAllCourseUrl: this.urlTemplate+'Curriculum/read/',
         editCourseUrl: this.urlTemplate+'Instruction/edit/'
@@ -37,7 +38,8 @@ export class AddCourseComponent implements OnInit{
                 public skip: SkipService,
                 private fb: FormBuilder,
                 @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
-                private notification: NzNotificationService,) {
+                private notification: NzNotificationService,
+                private rootRouter: RouterService) {
         this.courseList = [];
     }
 

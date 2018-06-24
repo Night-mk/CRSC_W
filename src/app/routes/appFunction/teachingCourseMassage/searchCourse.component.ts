@@ -5,6 +5,7 @@ import {NzNotificationService} from 'ng-zorro-antd';
 import {SkipService} from './skip.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-search-course',
@@ -26,7 +27,7 @@ export class SearchCourseComponent implements OnInit{
     //课程表展示数据
     courseDetailData: any[] = [];
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         readAddressUrl : this.urlTemplate+'TeachingPlace/read',
         searchCourseArrangementUrl: this.urlTemplate+'Instruction/read',
@@ -78,7 +79,8 @@ export class SearchCourseComponent implements OnInit{
                 private notification: NzNotificationService,
                 public skip: SkipService,
                 private fb: FormBuilder,
-                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+                private rootRouter: RouterService) {
 
         this.getCourseData();
     }

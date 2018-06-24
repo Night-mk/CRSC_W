@@ -11,7 +11,7 @@ export class WelcomeComponent {
 
     version = [
         '教师版',
-        '学生版'
+        'Admin版'
     ];
 
     showVersion: any;
@@ -20,7 +20,7 @@ export class WelcomeComponent {
                 @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
         if(this.tokenService.get().gid == 28){
             this.showVersion = this.version[0];
-        }else if(this.tokenService.get().gid == 29){
+        }else if(this.tokenService.get().gid == 27){
             this.showVersion = this.version[1];
         }
     }

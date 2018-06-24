@@ -6,6 +6,7 @@ import {NzNotificationService} from 'ng-zorro-antd';
 import {RouteService} from "./route.service";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
+import {RouterService} from '../../router.service';
 
 
 
@@ -22,7 +23,7 @@ export class CourseListComponent implements OnInit {
     //课程表展示数据
     courseDetailData: any[] = [];
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getAllCourseUrl: this.urlTemplate+'Curriculum/read/',
         editCourseUrl: this.urlTemplate+'Curriculum/edit/',
@@ -46,7 +47,8 @@ export class CourseListComponent implements OnInit {
                 private notification: NzNotificationService,
                 public route:RouteService,
                 private fb: FormBuilder,
-                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+                private rootRouter: RouterService) {
     }
 
     ngOnInit(): void {

@@ -7,6 +7,7 @@ import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
 import {OrganizationRouteService} from "./organizationRoute.service";
 import {SimpleTableComponent} from "../../delon/simple-table/simple-table.component";
 import {SimpleTableColumn} from "@delon/abc";
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-organization-list',
@@ -22,7 +23,7 @@ export class OrganizationListComponent {
     schoolList:any;
 
     //接口链接
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getAllCourseUrl: this.urlTemplate+'Organization/read/',
         editCourseUrl: this.urlTemplate+'organization/edit/',
@@ -58,7 +59,8 @@ export class OrganizationListComponent {
                 private msg: NzMessageService,
                 private Oroute:OrganizationRouteService,
                 @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
-                private notification: NzNotificationService,){
+                private notification: NzNotificationService,
+                private rootRouter: RouterService){
 
     }
 

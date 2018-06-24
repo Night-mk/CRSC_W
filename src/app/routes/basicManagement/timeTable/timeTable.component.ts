@@ -3,10 +3,12 @@ import { _HttpClient } from '@delon/theme';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
 import {NzNotificationService} from 'ng-zorro-antd';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-time-table',
-    templateUrl: './timeTable.component.html'
+    templateUrl: './timeTable.component.html',
+    providers: [RouterService]
 })
 export class TimeTableComponent implements OnInit{
 
@@ -28,7 +30,7 @@ export class TimeTableComponent implements OnInit{
     timeTableData: any;
 
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         editTimeTableUrl : this.urlTemplate+'TimeTable/edit',
         readTimeTableUrl : this.urlTemplate+'TimeTable/read',
@@ -38,7 +40,8 @@ export class TimeTableComponent implements OnInit{
     constructor(private http: _HttpClient,
                 private notification: NzNotificationService,
                 private fb: FormBuilder,
-                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService){
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+                private rootRouter: RouterService){
         this.editTimeTableMessage.school_name = this.tokenService.get().school;
         this.getTimeTable();
     }

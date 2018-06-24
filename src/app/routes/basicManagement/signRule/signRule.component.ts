@@ -4,17 +4,19 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import { NzNotificationService } from 'ng-zorro-antd';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-sign-rule',
-    templateUrl: './signRule.component.html'
+    templateUrl: './signRule.component.html',
+    providers: [RouterService]
 })
 export class SignRuleComponent {
     form: FormGroup;
     loading=false;
     isVisible = false;
     schoolList:any;
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getSignOnRuleUrl: this.urlTemplate+'SignonRule/read/',
         editSignOnRuleUrl: this.urlTemplate+'SignonRule/edit/'
@@ -30,7 +32,8 @@ export class SignRuleComponent {
     constructor(private http: _HttpClient,private fb: FormBuilder,
                 private msg: NzMessageService,
                 @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
-                private notification: NzNotificationService,){
+                private notification: NzNotificationService,
+                private rootRouter: RouterService){
 
     }
     ngOnInit(): void {

@@ -2,19 +2,20 @@ import {_HttpClient, SettingsService} from '@delon/theme';
 import { Component, OnDestroy, Inject, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import { SocialService, SocialOpenType, TokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core/startup/startup.service';
 import { Md5 } from "ts-md5/dist/md5";
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'passport-login',
     templateUrl: './login.component.html',
     styleUrls: [ './login.component.less' ],
-    providers: [ SocialService ]
+    providers: [ SocialService , RouterService]
 })
 export class UserLoginComponent implements OnDestroy {
 
@@ -33,7 +34,9 @@ export class UserLoginComponent implements OnDestroy {
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
         private startupSrv: StartupService,
-        private http: _HttpClient
+        private http: _HttpClient,
+        private rootRouter: RouterService,
+        private notification: NzNotificationService
     ) {
         this.form = fb.group({
             userName: [null, [Validators.required, Validators.minLength(5)]],
@@ -104,7 +107,7 @@ export class UserLoginComponent implements OnDestroy {
             // this.startupSrv.load().then(() => this.router.navigate(['/']));
             // 否则直接跳转
             let passwdMd5 = Md5.hashStr(this.password.value);
-            let loginUrl = '/CRSS/index.php/Login/login/type/1/name/'+this.userName.value+'/pwd/'+passwdMd5;
+            let loginUrl = this.rootRouter.rootRouter+'CRSS/index.php/Login/login/type/1/name/'+this.userName.value+'/pwd/'+passwdMd5;
             console.log(loginUrl+" "+this.userName.value+" "+passwdMd5 );
 
             //get登陆请求
@@ -118,8 +121,8 @@ export class UserLoginComponent implements OnDestroy {
                         //若没有gid信息，跳转填写相信信息页面
                         let tokenNumber = this.getRandom(9);
                         console.log(resData.gid);
+                        //没有个人信息
                         if(resData.gid.length==0 || resData.gid==undefined){
-                            console.log('test1');
                             this.tokenService.set({
                                 token: tokenNumber,
                                 time: +new Date,
@@ -139,8 +142,12 @@ export class UserLoginComponent implements OnDestroy {
                                 school: resData.gid[0].oname
                             });
                             console.log(this.tokenService.get());
+                            this.createBasicNotification('登陆',data['msg']);
                             this.router.navigate(['main/']);
                         }
+                    }else{
+                        this.createBasicNotification('登陆',data['msg']);
+                        this.router.navigate(['passport/login']);
                     }
                 },
                 response => {
@@ -190,5 +197,14 @@ export class UserLoginComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         if (this.interval$) clearInterval(this.interval$);
+    }
+
+    /**
+     * 简单提示框
+     * @param title
+     * @param content
+     */
+    createBasicNotification(title, content): void {
+        this.notification.blank( title, content);
     }
 }

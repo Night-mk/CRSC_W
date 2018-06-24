@@ -4,11 +4,13 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import {NzMessageService, NzNotificationService} from 'ng-zorro-antd';
 import {_HttpClient} from '@delon/theme';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'passport-forget-password',
     templateUrl: './forgetPassword.component.html',
-    styleUrls: [ '../register/register.component.less' ]
+    styleUrls: [ '../register/register.component.less' ],
+    providers: [RouterService]
 })
 export class ForgetPasswordComponent {
 
@@ -16,7 +18,7 @@ export class ForgetPasswordComponent {
     error = '';
 
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         forgetPasswordUrl : this.urlTemplate+'Login/forget_password'
     };
@@ -26,7 +28,8 @@ export class ForgetPasswordComponent {
                 public msg: NzMessageService,
                 public http: _HttpClient,
                 private notification: NzNotificationService,
-                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService) {
+                @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+                private rootRouter: RouterService) {
         this.form = fb.group({
             mail: [null, [Validators.email]]
         });

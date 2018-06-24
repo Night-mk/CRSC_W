@@ -44,7 +44,7 @@ const routes: Routes = [
             { path: 'appFunction', loadChildren: './appFunction/appFunction.module#AppFunctionModule'},
             { path: 'aclManagement', loadChildren: './aclManagement/aclManagement.module#AclManagementModule'},
             { path: 'basicManagement', loadChildren: './basicManagement/basicManagement.module#BasicManagementModule'},
-            { path: 'welcome', loadChildren: './welcome/welcome.module#WelcomeModule'}
+            { path: 'welcome', component: WelcomeComponent}
         ]
     },
     // 全屏布局

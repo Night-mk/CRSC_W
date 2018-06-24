@@ -5,12 +5,13 @@ import {SimpleTableColumn, SimpleTableComponent} from '@delon/abc';
 import {NzNotificationService} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {OrganizationRouteService} from "./organizationRoute.service";
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-organization',
     templateUrl: './organization.component.html',
     // styleUrls: ['./courseManagement.component.less'],
-    providers: [OrganizationRouteService]
+    providers: [OrganizationRouteService, RouterService]
 })
 
 export class OrganizationComponent implements AfterViewInit{

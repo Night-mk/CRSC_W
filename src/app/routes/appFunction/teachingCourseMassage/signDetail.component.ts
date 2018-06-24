@@ -4,6 +4,7 @@ import { SkipService } from './skip.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SimpleTableColumn, SimpleTableComponent} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-sign-detail',
@@ -36,7 +37,7 @@ export class SignDetailComponent{
 
 
     //接口请求url
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getSignDetailUrl: this.urlTemplate+'StudentPeriod/read',
         deleteSignUrl: this.urlTemplate+'StudentPeriod/delete',
@@ -45,7 +46,8 @@ export class SignDetailComponent{
 
     constructor(private http: _HttpClient,
                 public skip: SkipService,
-                public msg: NzMessageService) {
+                public msg: NzMessageService,
+                private rootRouter: RouterService) {
         this.gutter = this.skip.gutter;
         this.count = this.skip.counter;
         this.col = parseInt(this.skip.col);

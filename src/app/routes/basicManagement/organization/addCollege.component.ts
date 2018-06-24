@@ -5,6 +5,8 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { NzNotificationService } from 'ng-zorro-antd';
 import {DA_SERVICE_TOKEN, TokenService} from '@delon/auth';
 import {OrganizationRouteService} from "./organizationRoute.service";
+import {Router} from '@angular/router';
+import {RouterService} from '../../router.service';
 
 @Component({
     selector: 'app-add-college',
@@ -24,7 +26,7 @@ export class AddCollegeComponent {
     // course_id:any
 
     //接口链接
-    urlTemplate = 'CRSS/index.php/';
+    urlTemplate = this.rootRouter.rootRouter+'CRSS/index.php/';
     requestUrlList = {
         getAllCourseUrl: this.urlTemplate+'Organization/read/',
         editCourseUrl: this.urlTemplate+'Organization/edit/'
@@ -43,7 +45,8 @@ export class AddCollegeComponent {
                 private msg: NzMessageService,
                 public Oroute:OrganizationRouteService,
                 @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
-                private notification: NzNotificationService,) {
+                private notification: NzNotificationService,
+                private rootRouter: RouterService) {
     }
 
     ngOnInit(): void {

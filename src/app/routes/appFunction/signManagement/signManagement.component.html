@@ -26,7 +26,7 @@
 </nz-card>
 
 <!--详情信息模态框-->
-<nz-modal [(nzVisible)]="isVisible" nzTitle="签到详情" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="签到详情" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" nzWidth="700px">
   <nz-table #basicTable [nzData]="detailsDataSet">
     <thead>
     <tr>
